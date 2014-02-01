@@ -1,0 +1,26 @@
+<view title="'New Activity'" right-buttons="rightButtons" left-buttons="leftButtons" hide-back-button="true">
+  <content has-header="true">
+
+        
+
+        <list ng-hide="isOverhead || selectedProject">
+          <label class="item item-input">
+            <input type="text" placeholder="Search Projects..." ng-model="project">
+          </label>
+          <item ng-repeat="project in projects | filter:project" item="project" ng-click="selectProject(project)" ng-class="{active: selectedProject == project}">
+            <h2 ng-bind="project.name">List Item</h2>
+          </item>
+        </list>
+
+        <list ng-show="isOverhead || selectedProject">
+          <label class="item item-input">
+            <input type="text" placeholder="Search ServiceItems" ng-model="item">
+          </label>
+          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="selectServiceItem(item)" ng-class="{active: selectedServiceItem == item}">
+            <h2>{{item.name}}: {{item.description}}</h2>
+          </item>
+        </list>
+  </content>
+</view>
+
+
