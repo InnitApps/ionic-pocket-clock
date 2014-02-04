@@ -6,7 +6,7 @@ var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app
 
 // })
 
-pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Activities){
+pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Activities,Projects,ServiceItems,$ionicModal){
   
   console.log("Hello Activity List Controller!")
 
@@ -25,13 +25,22 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
       content: '<i class="icon ion-compose"></i>',
       tap: function(e) {
       	console.log("let's create a new activity")
-      	$state.go('activityFactory')
+      	// $state.go('activityFactory')
+        $scope.newActivity()
       }
     }
   ]
 
-    // Load or initialize activity logs
   $scope.activities = Activities.all();
+  $scope.projects = Projects.all();
+  $scope.serviceItems = ServiceItems.all();
+
+  $scope.selectedProject = null
+  $scope.selectedServiceItem = null
+
+  $scope.showProjects = true
+  $scope.showServiceItems = false
+  $scope.showOverhead = false
 
   $scope.$watch('selectedActivity.active',function(val){
     
@@ -84,45 +93,105 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
 
   }
 
-  $scope.pushNotificationChange = function(activity,activities) {
-    console.log('Push Notification Change', $scope.pushNotification.active);
-    console.log(activity)
+  // Create and load the Modal
+  $ionicModal.fromTemplateUrl('new-activity.html', function(modal) {
+    $scope.activityModal = modal;
+  }, {
+    scope: $scope,
+    animation: 'slide-in-up'
+  });
 
-    angular.forEach(activities, function(_activity) {
-      _activity.active = false                     
-    });
-
-    activity.active = true
-
-    // if(activity.active == true){
-    //   activity.active = false
-    // }
-    // else if(activity.active == false){
-    //   activity.active = true
-    // }
-
-
+  // Called when the form is submitted
+  $scope.createActivity = function(activity) {
+    $scope.activities.push(activity);
+    $scope.activityModal.hide();
   };
-    // Called to select the given activity
-  // $scope.selectActivity = function(activity) {
-  //   $scope.selectedActivity = activity;
-  //   console.log("selected:")
-  //   console.log($scope.selectedActivity)
-  // };
 
-  //  $scope.resumeActivity = function(activity) {
-  //   $scope.selectedActivity = activity;
-  //   var newActivity = Activities.cloneActivity($scope.selectedActivity);
-  //   Activities.registerActivity(newActivity).then(function(_activity){
-  //     var activities = Activities.all()
-  //     activities.push(_activity)
-  //     Activities.setCurrentActivity(_activity);
-  //     $state.go('clock')
-  //   }) 
-  // };
+  // Open our new activity modal
+  $scope.newActivity = function() {
+    console.log("show the modal")
+    $scope.selectedProject = null
+    $scope.selectedServiceItem = null
+    $scope.toggleOverhead.value = false
+    $scope.activityModal.show();
+  };
+
+  // Close the new activity modal
+  $scope.closeNewActivity = function() {
+    $scope.activityModal.hide();
+  };
+
+  //Modal Stuff
+
+  $scope.toggleOverhead = {
+    value: false,
+    buttonText: "Overhead",
+    titleText: "Billable"
+  };
+
+  // Called to select the given project
+  $scope.toggleOverhead = function() {
+
+        $scope.toggleOverheadButton.value = !$scope.toggleOverhead.value
+        if( $scope.toggleOverhead.value = true){
+           $scope.toggleOverhead.text = "Billable"
+        }
+        else{
+           $scope.toggleOverhead.value
+        }
+        $scope.selectedProject = null
+        $scope.selectedServiceItem = null
+  };
+
+  $scope.$watch('toggleOverhead.value',function(val){
+    if(val == true){
+      $scope.toggleOverhead.buttonText = "Billable"
+      $scope.toggleOverhead.titleText = "Overhead"
+      $scope.showProjects = false
+      $scope.showServiceItems = true
+
+    }
+    else{
+      $scope.showProjects = true
+      $scope.showServiceItems = false
+      $scope.toggleOverhead.buttonText = "Overhead"
+      $scope.toggleOverhead.titleText = "Billable"
+    }
+    
+    $scope.selectedProject = null
+    $scope.selectedServiceItem = null
+
+  })
 
 
+  // Called to select the given project
+  $scope.selectProject = function(project) {
+    $scope.selectedProject = project;
+    Projects.setSelected($scope.selectedProject);
+    $scope.showProjects = false
+    $scope.showServiceItems = true
+  };
 
+  // Called to select the given task
+  $scope.selectServiceItem = function(serviceItem) {
+    $scope.selectedServiceItem = serviceItem;
+    ServiceItems.setSelected($scope.selectedServiceItem);
+    $scope.showServiceItems = false
+  };
+
+   $scope.changeProjectSelection = function(){
+    $scope.selectedProject = null
+    $scope.selectedServiceItem = null
+    $scope.showProjects = true
+    $scope.showServiceItems = false
+
+  }
+
+  $scope.changeServiceItemSelection = function(){
+    $scope.selectedServiceItem = null
+    $scope.showServiceItems = true
+
+  }
 
 })
 
