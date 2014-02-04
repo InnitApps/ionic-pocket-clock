@@ -28,7 +28,8 @@ pocketClock.factory('Activities', function($q,$timeout) {
             "jobId" : null,
             "jobName" : null,
             "startTime": "2013-11-11T10:57:05.000Z",
-            "endTime": "2013-11-11T10:59:05.000Z"
+            "endTime": "2013-11-11T10:59:05.000Z",
+            "active": false
           },
           {
            "id": 101,
@@ -47,7 +48,8 @@ pocketClock.factory('Activities', function($q,$timeout) {
             },
             "jobName" : "Job Two",
             "startTime": "2013-11-11T15:57:05.000Z",
-            "endTime": "2013-11-11T15:59:05.000Z"
+            "endTime": "2013-11-11T15:59:05.000Z",
+            "active": false
           },
           {
            "id": 102,
@@ -66,7 +68,8 @@ pocketClock.factory('Activities', function($q,$timeout) {
             },
             "jobName" : "Job Three",
             "startTime": "2013-11-11T16:57:05.000Z",
-            "endTime": "2013-11-11T16:59:05.000Z"
+            "endTime": "2013-11-11T16:59:05.000Z",
+            "active": false
           }
       ]
     },

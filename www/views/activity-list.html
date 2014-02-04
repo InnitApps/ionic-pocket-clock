@@ -1,17 +1,36 @@
 <view title="'Activity List'" right-buttons="rightButtons" hide-back-button="true">
 	<content has-header="true">
+		
+		<toggle ng-repeat="activity in activities"
+                ng-model="activity.active" 
+                ng-checked="activity.active"
+                ng-change="toggleActivity(activity)"
+                ng-hide="activity.isVisible"
+                >
 
-		<div class="card" ng-repeat="activity in activities" item="item" href="#/{{activity.id}}" ng-class="{active: selectedActivity == activity}">
+          			<h2><i class="icon ion-loading-c" ng-if="activity.active"></i> {{activity.itemName}}</h2>
+    				<p>{{activity.jobName}}</p>
+    				<p ng-if="!activity.jobId">Overhead</p>
+    				<p>{{activity.endTime | date:'shortTime'}}</p>
+    				<p ng-if="activity.active">
+    					
+    					<innit-chronograph></innit-chronograph>
+						
+    				</p>
+        </toggle>
+
+
+		<!-- <div class="card" ng-repeat="activity in activities" item="activity" href="#/{{activity.id}}" ng-class="{active: selectedActivity == activity}" ng-click="activity = selectedActivity">
   			<div class="item item-text-wrap">
     			<h2><i class="icon ion-wrench"></i> {{activity.itemName}}</h2>
     			<p>{{activity.jobName}}</p>
     			<p ng-if="!activity.jobId">Overhead</p>
     			<p>{{activity.endTime | date:'shortTime'}}</p>
   			</div>
-  			<!-- <div class="item item-text-wrap">
-    			<h3>January 26 - 8:08am - 12:34pm</h3>
-    			<h3>January 26 - 8:08am - 12:34pm</h3>
-  			</div> -->
+  			<div class="item item-body" ng-show="activity == selectedActivity">
+			  
+    
+ 			</div>
 
   			<div class="item tabs tabs-secondary tabs-icon-left">
 			    <a class="tab-item" href="#">
@@ -23,7 +42,7 @@
 			      Resume
 			    </a>
 			  </div>
-		</div>
+		</div> -->
 
 
 		<!-- <list>

@@ -37,7 +37,7 @@
 }
 
 .timer .hand span {
-  border: 50px solid rgba(0, 255, 255, .4);
+  border: 50px solid rgba(255, 255, 255, .4);
   border-bottom-color: transparent;
   border-left-color: transparent;
   border-radius: 50%;
@@ -134,8 +134,8 @@
 .timer.second .hand span {
   animation-duration: 1s ;
   -webkit-animation-duration: 1s ;
-  border-top-color: rgba(0, 0, 0, .2);
-  border-right-color: rgba(0, 0, 0, .2);
+  border-top-color: rgba(255,255,255, 1);
+  border-right-color: rgba(255,255,255 1);
   border-width: 150px;
 }
 

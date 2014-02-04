@@ -33,6 +33,76 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
     // Load or initialize activity logs
   $scope.activities = Activities.all();
 
+  $scope.$watch('selectedActivity.active',function(val){
+    
+    if(val){
+
+      angular.forEach($scope.activities, function(_activity) { 
+        
+        _activity.isVisible = true 
+
+      });
+
+      $scope.selectedActivity.isVisible = false
+    }
+    else{
+      
+      angular.forEach($scope.activities, function(_activity) { 
+        
+        _activity.isVisible = false 
+
+      });
+    }
+  })
+
+  $scope.toggleActivity = function(activity){
+
+    $scope.selectedActivity = activity
+
+    if($scope.selectedActivity.active){
+
+      $scope.selectedActivity.active = false
+      
+      angular.forEach($scope.activities, function(_activity) { 
+        
+        _activity.visible = true 
+
+      });
+
+    }
+    else if(!$scope.selectedActivity.active){
+
+      //if we're setting the selected activity to true, let's set the rest of them to false and hide them
+      angular.forEach($scope.activities, function(_activity) {
+        _activity.active = false  
+        _activity.visible = false                   
+      });
+
+      $scope.selectedActivity.active = true
+
+    }
+
+  }
+
+  $scope.pushNotificationChange = function(activity,activities) {
+    console.log('Push Notification Change', $scope.pushNotification.active);
+    console.log(activity)
+
+    angular.forEach(activities, function(_activity) {
+      _activity.active = false                     
+    });
+
+    activity.active = true
+
+    // if(activity.active == true){
+    //   activity.active = false
+    // }
+    // else if(activity.active == false){
+    //   activity.active = true
+    // }
+
+
+  };
     // Called to select the given activity
   // $scope.selectActivity = function(activity) {
   //   $scope.selectedActivity = activity;
@@ -40,16 +110,18 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
   //   console.log($scope.selectedActivity)
   // };
 
-   $scope.resumeActivity = function(activity) {
-    $scope.selectedActivity = activity;
-    var newActivity = Activities.cloneActivity($scope.selectedActivity);
-    Activities.registerActivity(newActivity).then(function(_activity){
-      var activities = Activities.all()
-      activities.push(_activity)
-      Activities.setCurrentActivity(_activity);
-      $state.go('clock')
-    }) 
-  };
+  //  $scope.resumeActivity = function(activity) {
+  //   $scope.selectedActivity = activity;
+  //   var newActivity = Activities.cloneActivity($scope.selectedActivity);
+  //   Activities.registerActivity(newActivity).then(function(_activity){
+  //     var activities = Activities.all()
+  //     activities.push(_activity)
+  //     Activities.setCurrentActivity(_activity);
+  //     $state.go('clock')
+  //   }) 
+  // };
+
+
 
 
 })
