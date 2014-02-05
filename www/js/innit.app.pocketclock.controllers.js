@@ -6,7 +6,7 @@ var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app
 
 // })
 
-pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeLogs,Projects,ServiceItems,$ionicModal){
+pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeClock,TimeLogs,Projects,ServiceItems,$ionicModal){
   
   console.log("Hello Time Log List Controller!")
 
@@ -34,73 +34,69 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
   $scope.projects = Projects.all();
   $scope.serviceItems = ServiceItems.all();
 
-  $scope.$watch('selectedTimeLog.active',function(val){
+
+  $scope.$watch('timeLogs[0]',function(_log){
     
-    if(val){
-
-      angular.forEach($scope.timeLogs, function(_log) { 
-        
-        _log.isVisible = true 
-
-      });
-
-      $scope.selectedTimeLog.isVisible = false
-    }
-    else{
+    console.log(_log)
+    if(!_log.endTime){
+      _log.isActive = true
+      // TimeClock.activeTimeLog = _log
       
-      angular.forEach($scope.timeLogs, function(_log) { 
-        
-        _log.isVisible = false 
-
-      });
-    }
-  })
-
-  $scope.$watch('activeTimeLog',function(log){
-    
-    console.log(log)
-    if(!log.endTime){
-      $scope.timeLogs.unshift(log)
-      log.active = true
     }
     else{
-      log.active = false
+      _log.isActive = false
+
     }
 
   })
 
-  $scope.toggleTimeLog = function(timeLog){
+  $scope.resumeTimeLog = function(timeLog){
 
     $scope.selectedTimeLog = timeLog
 
-    if($scope.selectedTimeLog.active){
+    //returns a blank time log prototype to work with
+    var newTimeLog = TimeLogs.newTimeLog();
 
-      $scope.selectedTimeLog.active = false
+    if($scope.selectedTimeLog.jobId){
+      TimeLogs.setProject(newTimeLog,$scope.selectedTimeLog)
+    }
+    
+    TimeLogs.setServiceItem(newTimeLog,$scope.selectedTimeLog)
+    // TimeLogs.registerTimeLog(newTimeLog)
+    newTimeLog.startDate = new Date();
+    $scope.timeLogs.unshift(newTimeLog)
+
+    // if($scope.selectedTimeLog.isActive){
+
+    //   $scope.selectedTimeLog.active = false
       
-      angular.forEach($scope.timeLogs, function(_log) { 
+    //   angular.forEach($scope.timeLogs, function(_log) { 
         
-        _log.isVisible = true 
+    //     _log.isVisible = true 
 
-      });
+    //   });
 
-    }
-    else if(!$scope.selectedTimeLog.active){
+    // }
+    // if(!$scope.selectedTimeLog.isActive){
 
-      angular.forEach($scope.timeLogs, function(_log) {
-        _log.active = false  
-        _log.isVisible = false                   
-      });
+    //   angular.forEach($scope.timeLogs, function(_log) {
+    //     _log.active = false  
+    //     _log.isVisible = false                   
+    //   });
 
-      $scope.selectedTimeLog.active = true
+    //   $scope.selectedTimeLog.active = true
 
-    }
+    // }
+
+
 
   }
 
   $scope.endTimeLog = function(log){
-    $scope.activeTimeLog = log
-    $scope.activeTimeLog.endTime = new Date();
-    $scope.activeTimeLog.active = false
+
+    log.endTime = new Date();
+    log.isActive = false
+    TimeClock.refreshTimeClock();
   }
 
   // Create and load the Modal
@@ -113,16 +109,16 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
 
   // Called when the form is submitted
   $scope.createTimeLog = function() {
+    
     //returns a blank time log prototype to work with
     var newTimeLog = TimeLogs.newTimeLog();
 
     //TODO: should turn this into chained promises...
     TimeLogs.setProject(newTimeLog,Projects.getSelected())
     TimeLogs.setServiceItem(newTimeLog,ServiceItems.getSelected())
-    TimeLogs.registerTimeLog(newTimeLog)
-
-    $scope.activeTimeLog = newTimeLog
-    $scope.activeTimeLog.startDate = new Date();
+    // TimeLogs.registerTimeLog(newTimeLog)
+    newTimeLog.startDate = new Date();
+    $scope.timeLogs.unshift(newTimeLog)
     $scope.timeLogModal.hide();
   };
 

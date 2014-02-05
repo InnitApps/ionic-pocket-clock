@@ -1,5 +1,17 @@
 var pocketClock = angular.module('innit.app.pocketclock.factories',[]);
 
+pocketClock.factory('TimeClock', function(TimeLogs,Projects,ServiceItems) {
+  return {
+    refreshTimeClock: function(){
+
+      TimeLogs.all()
+      Projects.all()
+      ServiceItems.all()
+
+    }
+  }
+});
+
 /**
  * The Activity factory handles saving and loading activity logs
  * from local storage
@@ -7,11 +19,6 @@ var pocketClock = angular.module('innit.app.pocketclock.factories',[]);
 pocketClock.factory('TimeLogs', function($q,$timeout) {
   return {
     all: function() {
-      // var activityString = window.localStorage['activities'];
-      // if(activityString) {
-      //   return angular.fromJson(activityString);
-      // }
-      // return [];
 
       return [
         {
@@ -28,8 +35,7 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
             "jobId" : null,
             "jobName" : null,
             "startTime": "2013-11-11T10:57:05.000Z",
-            "endTime": "2013-11-11T10:59:05.000Z",
-            "active": false
+            "endTime": "2013-11-11T10:57:05.000Z"
           },
           {
            "id": 101,
@@ -48,8 +54,7 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
             },
             "jobName" : "Job Two",
             "startTime": "2013-11-11T15:57:05.000Z",
-            "endTime": "2013-11-11T15:59:05.000Z",
-            "active": false
+            "endTime": "2013-11-11T15:59:05.000Z"
           },
           {
            "id": 102,
@@ -68,10 +73,15 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
             },
             "jobName" : "Job Three",
             "startTime": "2013-11-11T16:57:05.000Z",
-            "endTime": "2013-11-11T16:59:05.000Z",
-            "active": false
+            "endTime": "2013-11-11T16:59:05.000Z"
           }
       ]
+    },
+    getLastTimeLog: function(){
+      var logs = this.all()
+      var lastLog = logs[0]
+      
+      return lastLog
     },
     registerTimeLog: function(timeLog) {
         var deferred = $q.defer();
@@ -105,16 +115,35 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
         endTime: null
       };
     },
-    setProject: function(log,project){
-      log.jobId = project.id
-      log.jobName = project.name
-
+    setProject: function(log,object){
+      if(object.jobId){
+        log.jobId = object.jobId
+      }
+      if(object.jobName){
+        log.jobName = object.jobName
+      }
+      else{
+        log.jobId = object.id
+        log.jobName = object.name
+      }
+      
       return log
 
     },
-    setServiceItem: function(log,serviceItem){
-      log.itemId = serviceItem.id
-      log.itemName = serviceItem.description
+    setServiceItem: function(log,object){
+
+      if(object.itemId){
+        log.itemId = object.itemId
+      }
+      if(object.itemName){
+        log.itemName = object.itemName
+      }
+      else{
+        //for setting the log from the job/item modal
+        log.itemId = object.id
+        log.itemName = object.description
+      }
+      
 
       return log
     },
