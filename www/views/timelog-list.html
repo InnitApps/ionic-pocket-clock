@@ -1,11 +1,12 @@
 <view title="'Recent Activity'" right-buttons="rightButtons" hide-back-button="true">
 
 	<content has-header="true">
-		<div class="card" ng-repeat="log in timeLogs" item="log" href="#/{{log.id}}" ng-class="{active: selectedTimeLog == log}" ng-hide="log.isVisible">
+		<div class="card" ng-repeat="log in timeLogs track by $index" item="log" href="#/{{log.id}}" ng-class="{active: selectedTimeLog == log}">
   				<toggle
                 ng-model="log.active" 
                 ng-checked="log.active"
                 ng-change="toggleTimeLog(log)"
+                ng-hide="log.active"
                 >
           			<h2><i class="icon ion-loading-c" ng-if="log.active"></i> {{log.itemName}}</h2>
     				<p>{{log.jobName}}</p>
@@ -14,7 +15,12 @@
         		</toggle>
   		
   			<div class="item item-body" ng-if="log.active">
-			  	<innit-chronograph></innit-chronograph>
+			  	<!-- <innit-chronograph></innit-chronograph> -->
+			  	<h2><i class="icon ion-loading-c" ng-if="log.active"></i> {{log.itemName}}</h2>
+    				<p>{{log.jobName}}</p>
+    				<p ng-if="!log.jobId">Overhead</p>
+    				<p>{{log.endTime | date:'shortTime'}}</p>
+    				<button class="button button-block button-assertive" ng-click="endTimeLog(log)">Stop</button>
  			</div>
 
   			<!-- <div class="item tabs tabs-secondary tabs-icon-left">
@@ -49,24 +55,8 @@
 
 		    <!-- Modal content area -->
 		    <content has-header="true">
-			    <div class="list card" ng-if="selectedServiceItem">
 
-				  <a href="#" class="item item-icon-left" ng-show="selectedProject" ng-click="changeProjectSelection()">
-				    <i class="icon ion-briefcase"></i>
-				    {{selectedProject.name}}
-				  </a>
-
-				  <a href="#" class="item item-icon-left" ng-show="selectedServiceItem" ng-click="changeServiceItemSelection()" >
-				    <i class="icon ion-wrench"></i>
-				    {{selectedServiceItem.name}}: {{selectedServiceItem.description}}
-				  </a>
-
-				    <button type="submit" class="button button-block button-positive" ng-show="selectedServiceItem">Confirm Activity</button>
-				 
-
-				</div>
-
-		      <form ng-submit="createTimeLog(log)">
+		      <form ng-submit="createTimeLog()">
 		        <list ng-show="showProjects">
 		          <label class="item item-input">
 		            <input type="text" placeholder="Search Projects..." ng-model="project">
@@ -84,6 +74,23 @@
 		            <h2>{{item.name}}: {{item.description}}</h2>
 		          </item>
 		        </list>
+
+
+		        <div class="list card" ng-if="selectedServiceItem">
+
+				  <a href="#" class="item item-icon-left" ng-show="selectedProject" ng-click="changeProjectSelection()">
+				    <i class="icon ion-briefcase"></i>
+				    {{selectedProject.name}}
+				  </a>
+
+				  <a href="#" class="item item-icon-left" ng-show="selectedServiceItem" ng-click="changeServiceItemSelection()" >
+				    <i class="icon ion-wrench"></i>
+				    {{selectedServiceItem.name}}: {{selectedServiceItem.description}}
+				  </a>
+
+				    <button type="submit" class="button button-block button-positive" ng-show="selectedServiceItem">Confirm Activity</button>
+				 
+				</div>
 
 		      </form>
 

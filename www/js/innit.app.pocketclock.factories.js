@@ -73,20 +73,20 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
           }
       ]
     },
-    registerActivity: function(activity) {
+    registerTimeLog: function(timeLog) {
         var deferred = $q.defer();
 
         
           deferred.resolve(
 
-              activity
+              timeLog
 
           );
        
 
         return deferred.promise
     },
-    newActivity: function() {
+    newTimeLog: function() {
       return {
         employeeId: "QB:123",
         vendor: "Vendor Name",
@@ -105,40 +105,40 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
         endTime: null
       };
     },
-    setActivityProject: function(activity,project){
-      activity.jobId = project.id
-      activity.jobName = project.name
+    setProject: function(log,project){
+      log.jobId = project.id
+      log.jobName = project.name
 
-      return activity
+      return log
 
     },
-    setActivityServiceItem: function(activity,serviceItem){
-      activity.itemId = serviceItem.id
-      activity.itemName = serviceItem.description
+    setServiceItem: function(log,serviceItem){
+      log.itemId = serviceItem.id
+      log.itemName = serviceItem.description
 
-      return activity
+      return log
     },
-    setCurrentActivity: function(activity){
-      this.currentActivity = activity
-    },
-    getCurrentActivity: function(){
-      if(this.currentActivity){
-        return this.currentActivity
-      }
-      else{
-        console.log("no current activity")
-        return false
-      }
-    },
-    cloneActivity: function(activity){
-      var newActivity = this.newActivity();
-      newActivity.jobId = activity.jobId
-      newActivity.jobName = activity.jobName
-      newActivity.itemId = activity.itemId
-      newActivity.itemName = activity.itemName
+    // setCurrentActivity: function(activity){
+    //   this.currentActivity = activity
+    // },
+    // getCurrentActivity: function(){
+    //   if(this.currentActivity){
+    //     return this.currentActivity
+    //   }
+    //   else{
+    //     console.log("no current activity")
+    //     return false
+    //   }
+    // },
+    // cloneActivity: function(activity){
+    //   var newActivity = this.newActivity();
+    //   newActivity.jobId = activity.jobId
+    //   newActivity.jobName = activity.jobName
+    //   newActivity.itemId = activity.itemId
+    //   newActivity.itemName = activity.itemName
 
-      return newActivity
-    }
+    //   return newActivity
+    // }
     // ,
     // getLastActiveIndex: function() {
     //   return parseInt(window.localStorage['lastActiveActivity']) || 0;

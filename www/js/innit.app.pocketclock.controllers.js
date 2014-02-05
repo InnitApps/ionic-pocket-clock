@@ -56,6 +56,16 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
     }
   })
 
+  $scope.$watch('activeTimeLog',function(log){
+    
+    console.log(log)
+    if(!log.endTime){
+      $scope.timeLogs.unshift(log)
+      log.active = true
+    }
+
+  })
+
   $scope.toggleTimeLog = function(timeLog){
 
     $scope.selectedTimeLog = timeLog
@@ -84,6 +94,12 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
 
   }
 
+  $scope.endTimeLog = function(log){
+
+    log.endTime = new Date();
+    log.active = false
+  }
+
   // Create and load the Modal
   $ionicModal.fromTemplateUrl('new-timelog.html', function(modal) {
     $scope.timeLogModal = modal;
@@ -93,8 +109,17 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
   });
 
   // Called when the form is submitted
-  $scope.createtimeLog = function(timeLog) {
-    $scope.timeLogs.push(timeLog);
+  $scope.createTimeLog = function() {
+    //returns a blank time log prototype to work with
+    var newTimeLog = TimeLogs.newTimeLog();
+
+    //TODO: should turn this into chained promises...
+    TimeLogs.setProject(newTimeLog,Projects.getSelected())
+    TimeLogs.setServiceItem(newTimeLog,ServiceItems.getSelected())
+    TimeLogs.registerTimeLog(newTimeLog)
+
+    $scope.activeTimeLog = newTimeLog
+    $scope.activeTimeLog.startDate = new Date();
     $scope.timeLogModal.hide();
   };
 
@@ -103,6 +128,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
     console.log("show the modal")
     $scope.selectedProject = null
     $scope.selectedServiceItem = null
+    $scope.showProjects = true
     $scope.isOverhead = false
     $scope.timeLogModal.show();
   };
@@ -151,17 +177,22 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
 
   // Called to select the given project
   $scope.selectProject = function(project) {
+
     $scope.selectedProject = project;
     Projects.setSelected($scope.selectedProject);
+
     $scope.showProjects = false
     $scope.showServiceItems = true
   };
 
-  // Called to select the given task
+  // Called to select the given service item
   $scope.selectServiceItem = function(serviceItem) {
     $scope.selectedServiceItem = serviceItem;
     ServiceItems.setSelected($scope.selectedServiceItem);
+
+    $scope.showProjects = false
     $scope.showServiceItems = false
+
   };
 
    $scope.changeProjectSelection = function(){
