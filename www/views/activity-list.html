@@ -1,4 +1,4 @@
-<view title="'Activity List'" right-buttons="rightButtons" hide-back-button="true">
+<view title="'Recent Activity'" right-buttons="rightButtons" hide-back-button="true">
 
 	<content has-header="true">
 		<div class="card" ng-repeat="activity in activities" item="activity" href="#/{{activity.id}}" ng-class="{active: selectedActivity == activity}" ng-hide="activity.isVisible">
@@ -39,34 +39,32 @@
 		  <div class="modal">
 
 		    <!-- Modal header bar -->
-		    <header class="bar bar-header bar-secondary">
-		    <button class="button button-clear button-positive" ng-click="closeNewActivity()">Cancel</button>
-		      <h1 class="title">New {{toggleOverhead.titleText}} Activity</h1>
-		    <button class="button button-clear button-positive" ng-click="toggleOverhead.value = !toggleOverhead.value">{{toggleOverhead.buttonText}}</button>
-	
+		    <header class="bar bar-header bar-positive">
+		    <button class="button button-clear button-clear" ng-click="closeNewActivity()">Cancel</button>
+		      <h1 class="title" ng-if="!selectedProject && !selectedServiceItem">New {{titleText}} Activity</h1>
+		      <h1 class="title" ng-if="selectedProject && !selectedServiceItem">{{selectedProject.name}}</h1>
+		      <h1 class="title" ng-if="selectedServiceItem">Confirm</h1>
+		    <button class="button" ng-click="toggleOverhead()">{{toggleButtonText}}</button>
 		    </header>
 
 		    <!-- Modal content area -->
 		    <content has-header="true">
+			    <div class="list card" ng-if="selectedServiceItem">
 
-		    <div class="list card">
+				  <a href="#" class="item item-icon-left" ng-show="selectedProject" ng-click="changeProjectSelection()">
+				    <i class="icon ion-briefcase"></i>
+				    {{selectedProject.name}}
+				  </a>
 
-			  <a href="#" class="item item-icon-left" ng-show="selectedProject" ng-click="changeProjectSelection()">
-			    <i class="icon ion-briefcase"></i>
-			    {{selectedProject.name}}
-			  </a>
+				  <a href="#" class="item item-icon-left" ng-show="selectedServiceItem" ng-click="changeServiceItemSelection()" >
+				    <i class="icon ion-wrench"></i>
+				    {{selectedServiceItem.name}}: {{selectedServiceItem.description}}
+				  </a>
 
-			  <a href="#" class="item item-icon-left" ng-show="selectedServiceItem" ng-click="changeServiceItemSelection()" >
-			    <i class="icon ion-wrench"></i>
-			    {{selectedServiceItem.name}}: {{selectedServiceItem.description}}
-			  </a>
+				    <button type="submit" class="button button-block button-positive" ng-show="selectedServiceItem">Confirm Activity</button>
+				 
 
-			    <button type="submit" class="button button-block button-positive" ng-show="selectedServiceItem">Create Activity</button>
-			 
-
-			</div>
-
-
+				</div>
 
 		      <form ng-submit="createActivity(activity)">
 		        <list ng-show="showProjects">

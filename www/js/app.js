@@ -8,26 +8,6 @@ InnitPocketClock.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "/views/activity-list.html",
       controller: 'ActivityListCtrl'
     })
-    .state('activityFactory', {
-      url: "/factory",
-      templateUrl: "/views/activity-factory.html",
-      controller: 'ActivityFactoryCtrl'
-    })
-    .state('activityConfirm', {
-      url: "/confirm",
-      templateUrl: "/views/activity-confirm.html",
-      controller: 'ActivityConfirmCtrl'
-    })
-    // .state('clock', {
-    //   url: "/clock",
-    //   templateUrl: "/views/clock.html",
-    //   controller: 'ClockCtrl'
-    // })
-    // .state('activityDetail', {
-    //   url: "/activity-detail",
-    //   templateUrl: "/views/activity-detail.html",
-    //   controller: 'ActivityDetailCtrl'
-    // })
 
     // if none of the above are matched, go to this one
     $urlRouterProvider.otherwise("/list");
