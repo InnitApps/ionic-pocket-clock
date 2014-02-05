@@ -63,6 +63,9 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
       $scope.timeLogs.unshift(log)
       log.active = true
     }
+    else{
+      log.active = false
+    }
 
   })
 
@@ -95,9 +98,9 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeL
   }
 
   $scope.endTimeLog = function(log){
-
-    log.endTime = new Date();
-    log.active = false
+    $scope.activeTimeLog = log
+    $scope.activeTimeLog.endTime = new Date();
+    $scope.activeTimeLog.active = false
   }
 
   // Create and load the Modal
