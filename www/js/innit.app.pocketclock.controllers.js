@@ -6,9 +6,9 @@ var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app
 
 // })
 
-pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Activities,Projects,ServiceItems,$ionicModal){
+pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeLogs,Projects,ServiceItems,$ionicModal){
   
-  console.log("Hello Activity List Controller!")
+  console.log("Hello Time Log List Controller!")
 
   $scope.leftButtons = [
     { 
@@ -24,94 +24,92 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
       type: 'button-clear',
       content: '<i class="icon ion-compose"></i>',
       tap: function(e) {
-      	console.log("let's create a new activity")
-      	// $state.go('activityFactory')
-        $scope.newActivity()
+      	console.log("let's create a new log")
+        $scope.newTimeLog()
       }
     }
   ]
 
-  $scope.activities = Activities.all();
+  $scope.timeLogs = TimeLogs.all();
   $scope.projects = Projects.all();
   $scope.serviceItems = ServiceItems.all();
 
-  $scope.$watch('selectedActivity.active',function(val){
+  $scope.$watch('selectedTimeLog.active',function(val){
     
     if(val){
 
-      angular.forEach($scope.activities, function(_activity) { 
+      angular.forEach($scope.timeLogs, function(_log) { 
         
-        _activity.isVisible = true 
+        _log.isVisible = true 
 
       });
 
-      $scope.selectedActivity.isVisible = false
+      $scope.selectedTimeLog.isVisible = false
     }
     else{
       
-      angular.forEach($scope.activities, function(_activity) { 
+      angular.forEach($scope.timeLogs, function(_log) { 
         
-        _activity.isVisible = false 
+        _log.isVisible = false 
 
       });
     }
   })
 
-  $scope.toggleActivity = function(activity){
+  $scope.toggleTimeLog = function(timeLog){
 
-    $scope.selectedActivity = activity
+    $scope.selectedTimeLog = timeLog
 
-    if($scope.selectedActivity.active){
+    if($scope.selectedTimeLog.active){
 
-      $scope.selectedActivity.active = false
+      $scope.selectedTimeLog.active = false
       
-      angular.forEach($scope.activities, function(_activity) { 
+      angular.forEach($scope.timeLogs, function(_log) { 
         
-        _activity.isVisible = true 
+        _log.isVisible = true 
 
       });
 
     }
-    else if(!$scope.selectedActivity.active){
+    else if(!$scope.selectedTimeLog.active){
 
-      //if we're setting the selected activity to true, let's set the rest of them to false and hide them
-      angular.forEach($scope.activities, function(_activity) {
-        _activity.active = false  
-        _activity.isVisible = false                   
+      angular.forEach($scope.timeLogs, function(_log) {
+        _log.active = false  
+        _log.isVisible = false                   
       });
 
-      $scope.selectedActivity.active = true
+      $scope.selectedTimeLog.active = true
 
     }
 
   }
 
   // Create and load the Modal
-  $ionicModal.fromTemplateUrl('new-activity.html', function(modal) {
-    $scope.activityModal = modal;
+  $ionicModal.fromTemplateUrl('new-timelog.html', function(modal) {
+    $scope.timeLogModal = modal;
   }, {
     scope: $scope,
     animation: 'slide-in-up'
   });
 
   // Called when the form is submitted
-  $scope.createActivity = function(activity) {
-    $scope.activities.push(activity);
-    $scope.activityModal.hide();
+  $scope.createtimeLog = function(timeLog) {
+    $scope.timeLogs.push(timeLog);
+    $scope.timeLogModal.hide();
   };
 
-  // Open our new activity modal
-  $scope.newActivity = function() {
+  // Open our new time log modal
+  $scope.newTimeLog = function() {
     console.log("show the modal")
     $scope.selectedProject = null
     $scope.selectedServiceItem = null
     $scope.isOverhead = false
-    $scope.activityModal.show();
+    $scope.timeLogModal.show();
   };
 
-  // Close the new activity modal
-  $scope.closeNewActivity = function() {
-    $scope.activityModal.hide();
+  // Close the new time log modal
+  $scope.closeNewTimeLog = function() {
+    $scope.timeLogModal.hide();
   };
 
   //Modal

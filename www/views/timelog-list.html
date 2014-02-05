@@ -1,19 +1,19 @@
 <view title="'Recent Activity'" right-buttons="rightButtons" hide-back-button="true">
 
 	<content has-header="true">
-		<div class="card" ng-repeat="activity in activities" item="activity" href="#/{{activity.id}}" ng-class="{active: selectedActivity == activity}" ng-hide="activity.isVisible">
+		<div class="card" ng-repeat="log in timeLogs" item="log" href="#/{{log.id}}" ng-class="{active: selectedTimeLog == log}" ng-hide="log.isVisible">
   				<toggle
-                ng-model="activity.active" 
-                ng-checked="activity.active"
-                ng-change="toggleActivity(activity)"
+                ng-model="log.active" 
+                ng-checked="log.active"
+                ng-change="toggleTimeLog(log)"
                 >
-          			<h2><i class="icon ion-loading-c" ng-if="activity.active"></i> {{activity.itemName}}</h2>
-    				<p>{{activity.jobName}}</p>
-    				<p ng-if="!activity.jobId">Overhead</p>
-    				<p>{{activity.endTime | date:'shortTime'}}</p>
+          			<h2><i class="icon ion-loading-c" ng-if="log.active"></i> {{log.itemName}}</h2>
+    				<p>{{log.jobName}}</p>
+    				<p ng-if="!log.jobId">Overhead</p>
+    				<p>{{log.endTime | date:'shortTime'}}</p>
         		</toggle>
   		
-  			<div class="item item-body" ng-if="activity.active">
+  			<div class="item item-body" ng-if="log.active">
 			  	<innit-chronograph></innit-chronograph>
  			</div>
 
@@ -34,13 +34,13 @@
 
 	</content>
 
-	 <script id="new-activity.html" type="text/ng-template">
+	 <script id="new-timelog.html" type="text/ng-template">
 
 		  <div class="modal">
 
 		    <!-- Modal header bar -->
 		    <header class="bar bar-header bar-positive">
-		    <button class="button button-clear button-clear" ng-click="closeNewActivity()">Cancel</button>
+		    <button class="button button-clear button-clear" ng-click="closeNewTimeLog()">Cancel</button>
 		      <h1 class="title" ng-if="!selectedProject && !selectedServiceItem">New {{titleText}} Activity</h1>
 		      <h1 class="title" ng-if="selectedProject && !selectedServiceItem">{{selectedProject.name}}</h1>
 		      <h1 class="title" ng-if="selectedServiceItem">Confirm</h1>
@@ -66,7 +66,7 @@
 
 				</div>
 
-		      <form ng-submit="createActivity(activity)">
+		      <form ng-submit="createTimeLog(log)">
 		        <list ng-show="showProjects">
 		          <label class="item item-input">
 		            <input type="text" placeholder="Search Projects..." ng-model="project">

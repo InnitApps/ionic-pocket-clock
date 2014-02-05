@@ -4,7 +4,7 @@ var pocketClock = angular.module('innit.app.pocketclock.factories',[]);
  * The Activity factory handles saving and loading activity logs
  * from local storage
  */
-pocketClock.factory('Activities', function($q,$timeout) {
+pocketClock.factory('TimeLogs', function($q,$timeout) {
   return {
     all: function() {
       // var activityString = window.localStorage['activities'];

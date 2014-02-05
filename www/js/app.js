@@ -3,10 +3,10 @@ var InnitPocketClock = angular.module('innitPocketClock', ['ionic','innit.app.po
 InnitPocketClock.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    .state('activityList', {
+    .state('timeLogList', {
       url: "/list",
-      templateUrl: "/views/activity-list.html",
-      controller: 'ActivityListCtrl'
+      templateUrl: "/views/timelog-list.html",
+      controller: 'TimeLogListCtrl'
     })
 
     // if none of the above are matched, go to this one
