@@ -50,36 +50,68 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
 
   })
 
-  
 
-  $scope.toggleTimeLog = function(timeLog){
-    $scope.selectedTimeLog = timeLog
-    //toggle the value
-    $scope.selectedTimeLog.isActive = !$scope.selectedTimeLog.isActive
-    
-    //disable all other toggles based on a truthy active value
-    if($scope.selectedTimeLog.isActive){
+
+  $scope.$watch('selectedTimeLog.isActive',function(active){
+
+    if(active){
 
       angular.forEach($scope.timeLogs, function(_log) { 
         
         _log.isDisabled = true
-        _log.isActive = false 
-
+      
       });
 
       $scope.selectedTimeLog.isDisabled = false
-      $scope.selectedTimeLog.isActive = true
 
     }
-    else if(!$scope.selectedTimeLog.isActive){
+    else if(!active){
 
-      angular.forEach($scope.timeLogs, function(_log) {
-
+      angular.forEach($scope.timeLogs, function(_log) { 
+        
         _log.isDisabled = false
-        _log.isActive = false                   
-      });
 
+      });
     }
+    else{
+      angular.forEach($scope.timeLogs, function(_log) { 
+        
+        _log.isDisabled = false
+
+      });
+    }
+  })
+
+  
+
+  $scope.toggleTimeLog = function(timeLog){
+    $scope.selectedTimeLog = timeLog
+    // //toggle the value
+    // $scope.selectedTimeLog.isActive = !$scope.selectedTimeLog.isActive
+    
+    //disable all other toggles based on a truthy active value
+    // if($scope.selectedTimeLog.isActive){
+
+    //   angular.forEach($scope.timeLogs, function(_log) { 
+        
+    //     _log.isDisabled = true
+    //     _log.isActive = false 
+
+    //   });
+
+    //   $scope.selectedTimeLog.isDisabled = false
+    //   $scope.selectedTimeLog.isActive = true
+
+    // }
+    // else if(!$scope.selectedTimeLog.isActive){
+
+    //   angular.forEach($scope.timeLogs, function(_log) {
+
+    //     _log.isDisabled = false
+    //     _log.isActive = false                   
+    //   });
+
+    // }
   }
 
   $scope.resumeTimeLog = function(timeLog){
