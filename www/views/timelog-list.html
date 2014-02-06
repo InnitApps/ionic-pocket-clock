@@ -3,7 +3,7 @@
 	<content has-header="true">
 		<div class="card" ng-repeat="log in timeLogs track by $index" item="log" href="#/{{log.id}}" ng-class="{active: selectedTimeLog == log}">
 				<!-- <pre>{{log}}</pre> -->
-  				<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="resumeTimeLog(log)" ng-hide="log.isActive">
+  				<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" ng-disabled="log.isDisabled" ng-hide="log.isActive">
           			<h2><i class="icon ion-loading-c" ng-if="log.isActive"></i> {{log.itemName}}</h2>
     				<p>{{log.jobName}}</p>
     				<!-- <p ng-if="!log.jobId">Overhead</p> -->
@@ -11,24 +11,30 @@
         		</toggle>
   		
 	  			<div class="item item-body" ng-if="log.isActive">
-				  	<!-- <innit-chronograph></innit-chronograph> -->
+				  	
 				  	<h2><i class="icon ion-loading-c" ng-if="log.isActive"></i> {{log.itemName}}</h2>
     				<p>{{log.jobName}}</p>
     				<p ng-if="!log.jobId">Overhead</p>
     				<p>{{log.endTime | date:'shortTime'}}</p>
-    				<button class="button button-block button-assertive" ng-click="endTimeLog(log)">Stop</button>
+    				<!-- <button class="button button-block button-assertive" ng-click="endTimeLog(log)">Stop</button> -->
 	 			</div>
 
-	  			<!-- <div class="item tabs tabs-secondary tabs-icon-left">
-				    <a class="tab-item" href="#">
+	  			<div class="item tabs tabs-secondary tabs-icon-left" ng-if="log.isActive">
+				    <!-- <a class="tab-item" href="#">
 				      <i class="icon ion-star"></i>
 				      Favorite
 				    </a>
 				    <a class="tab-item" ng-click="resumeActivity(activity)">
 				      <i class="icon ion-loop"></i>
 				      Resume
+				    </a> -->
+				    <a class="tab-item" ng-click="endTimeLog(log)">
+				    	<button class="button button-clear button-assertive">
+   							<i class="icon ion-ios7-close-outline"></i>
+				      		End Activity
+						</button>				     
 				    </a>
-				 </div> -->
+				 </div>
 		</div>
 
 

@@ -35,24 +35,54 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   $scope.serviceItems = ServiceItems.all();
 
 
-  $scope.$watch('timeLogs[0]',function(_log){
+  // $scope.$watch('timeLogs[0]',function(_log){
     
-    console.log(_log)
-    if(!_log.endTime){
-      _log.isActive = true
-      // TimeClock.activeTimeLog = _log
+  //   console.log(_log)
+  //   if(!_log.endTime){
+  //     _log.isActive = true
+  //     // TimeClock.activeTimeLog = _log
       
-    }
-    else{
-      _log.isActive = false
+  //   }
+  //   else{
+  //     _log.isActive = false
+
+  //   }
+
+  // })
+
+  
+
+  $scope.toggleTimeLog = function(timeLog){
+    $scope.selectedTimeLog = timeLog
+    //toggle the value
+    $scope.selectedTimeLog.isActive = !$scope.selectedTimeLog.isActive
+    
+    //disable all other toggles based on a truthy active value
+    if($scope.selectedTimeLog.isActive){
+
+      angular.forEach($scope.timeLogs, function(_log) { 
+        
+        _log.isDisabled = true
+        _log.isActive = false 
+
+      });
+
+      $scope.selectedTimeLog.isDisabled = false
+      $scope.selectedTimeLog.isActive = true
 
     }
+    else if(!$scope.selectedTimeLog.isActive){
 
-  })
+      angular.forEach($scope.timeLogs, function(_log) {
+
+        _log.isDisabled = false
+        _log.isActive = false                   
+      });
+
+    }
+  }
 
   $scope.resumeTimeLog = function(timeLog){
-
-    $scope.selectedTimeLog = timeLog
 
     //returns a blank time log prototype to work with
     var newTimeLog = TimeLogs.newTimeLog();
@@ -65,31 +95,6 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
     // TimeLogs.registerTimeLog(newTimeLog)
     newTimeLog.startDate = new Date();
     $scope.timeLogs.unshift(newTimeLog)
-
-    // if($scope.selectedTimeLog.isActive){
-
-    //   $scope.selectedTimeLog.active = false
-      
-    //   angular.forEach($scope.timeLogs, function(_log) { 
-        
-    //     _log.isVisible = true 
-
-    //   });
-
-    // }
-    // if(!$scope.selectedTimeLog.isActive){
-
-    //   angular.forEach($scope.timeLogs, function(_log) {
-    //     _log.active = false  
-    //     _log.isVisible = false                   
-    //   });
-
-    //   $scope.selectedTimeLog.active = true
-
-    // }
-
-
-
   }
 
   $scope.endTimeLog = function(log){
