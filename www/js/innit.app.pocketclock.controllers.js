@@ -35,20 +35,20 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   $scope.serviceItems = ServiceItems.all();
 
 
-  // $scope.$watch('timeLogs[0]',function(_log){
+  $scope.$watch('timeLogs[0]',function(_log){
     
-  //   console.log(_log)
-  //   if(!_log.endTime){
-  //     _log.isActive = true
-  //     // TimeClock.activeTimeLog = _log
+    console.log(_log)
+    if(!_log.endTime){
+      _log.isActive = true
+      // TimeClock.activeTimeLog = _log
       
-  //   }
-  //   else{
-  //     _log.isActive = false
+    }
+    else{
+      _log.isActive = false
 
-  //   }
+    }
 
-  // })
+  })
 
   
 
@@ -122,7 +122,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
     TimeLogs.setProject(newTimeLog,Projects.getSelected())
     TimeLogs.setServiceItem(newTimeLog,ServiceItems.getSelected())
     // TimeLogs.registerTimeLog(newTimeLog)
-    newTimeLog.startDate = new Date();
+    newTimeLog.startTime = new Date();
     $scope.timeLogs.unshift(newTimeLog)
     $scope.timeLogModal.hide();
   };
