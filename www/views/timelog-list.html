@@ -2,7 +2,7 @@
 
 	<content has-header="true">
 		<div class="card" ng-repeat="log in timeLogs track by $index" item="log" ng-class="{active: selectedTimeLog == log}">
-			<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" ng-disabled="log.isDisabled" >
+			<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" >
       			<h2><i class="icon ion-loading-c" ng-if="log.isActive"></i> {{log.itemName}}</h2>
 				<p>{{log.jobName}}</p>
 				<p>{{log.endTime | date:'shortTime'}}</p>
@@ -12,6 +12,7 @@
 				<p>{{log.jobName}}</p>
 				<p ng-if="!log.jobId">Overhead</p>
 				<p>{{log.endTime | date:'shortTime'}}</p>
+				<innit-chronograph></innit-chronograph>
  			</div>
 
   			<div class="item tabs tabs-secondary tabs-icon-left" ng-if="log.isActive">
