@@ -1,0 +1,24 @@
+{
+  "name": "McClock2",
+  "description": "Chrome platform app.",
+  "manifest_version": 2,
+  "version": "1.0",
+  "offline_enabled": true,
+  "app": {
+    "background": {
+      "scripts": ["js/innit/innit.app.chrome.background.js"]
+    }
+  },
+  "icons": { "16": "images/Icon-Small.png",
+           "48": "images/Icon-Small.png",
+          "128": "images/mccloud128.png" },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3Csx7YfL6uuaCl+Q9KAR+gWf4jBGw19owhqKsj3Hgnu6/FFIgrDoPl32OTjag3eE/AvQ0oVAHj5OStQypZAP3uek7s1UnDkio1CmvpmKZGgU2tyOBBjvgIyIxy3RE8YiuarpO/UrP4vmpvRLZgPCNmvKLahll+wAFb0tp3sQkodPtqbXhfucrEqBKKqm3qO/4e0Qh9bbdly8gmrwDmC5SshBPZNFtEFjhiNnWlRX6MdqK8YuKweB1W7KLZ0StFIxoy3hOaLMRn4a9BWnkwSbVrPWWPmH34HZyzMTopeGn4KoBTzRDmP8jchOmXOcXo6IZ8hABNeeV5lE7N6itt00owIDAQAB",
+  
+  "permissions" : ["identity","storage","audioCapture","https://apis.google.com/*","tts","audioCapture","app.window"],
+  "oauth2": {
+    "client_id": "421497775433-02bj2u3rojdif21jkqbjtub2gfco53mn.apps.googleusercontent.com",
+    "api_key" : "AIzaSyDWU7vFK_uLM7uxUR-BU73r9oVpZszt3SM",
+    "scopes": ["https://www.googleapis.com/auth/plus.login openid email profile"],
+    "hd" : "mcguffygroup.com"
+  }
+}

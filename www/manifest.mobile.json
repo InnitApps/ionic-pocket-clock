@@ -1,0 +1,11 @@
+ {
+  "packageId": "com.innitapps.mcguffy.McClock2",
+  "versionCode": 1,
+  "CFBundleVersion": '1.1.1',
+  "oauth2": {
+    "client_id": "421497775433-ietevvm1rqptp37gp3ga80mt5732pgqh.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/plus.login"
+    ]
+  }
+}

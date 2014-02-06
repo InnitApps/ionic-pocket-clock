@@ -6,8 +6,13 @@ var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app
 
 // })
 
-pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Activities){
+
+
+
+
+pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state){
   
+
   console.log("Hello Activity List Controller!")
 
   $scope.leftButtons = [
@@ -31,7 +36,7 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
   ]
 
     // Load or initialize activity logs
-  $scope.activities = Activities.all();
+ // $scope.activities = TimeClockAPI.live.timelogs;
 
     // Called to select the given activity
   // $scope.selectActivity = function(activity) {
@@ -54,13 +59,16 @@ pocketClock.controller('ActivityListCtrl',function($rootScope,$scope,$state,Acti
 
 })
 
-pocketClock.controller('ActivityFactoryCtrl',function($rootScope,$scope,$state, $timeout, $ionicModal,Projects,ServiceItems){
+pocketClock.controller('ActivityFactoryCtrl',function($rootScope,$scope,$state, $timeout, $ionicModal,Projects,ServiceItems,TimeClockAPI){
   
   console.log("Hello Factory Controller!")
 
-   $scope.isOverhead = false;
-   $scope.selectedProject = null
-   $scope.selectedServiceItem = null
+  $scope.newTimeLog = {
+    operationcode : undefined,
+    project : undefined 
+  }
+
+
 
    $scope.leftButtons = [
     { 
@@ -96,8 +104,8 @@ pocketClock.controller('ActivityFactoryCtrl',function($rootScope,$scope,$state, 
 
 
   // Load or initialize projects and service items
-  $scope.projects = Projects.all();
-  $scope.serviceItems = ServiceItems.all();
+  $scope.projects = TimeClockAPI.live.projects;
+  $scope.serviceItems = TimeClockAPI.live.operationcodes;
 
   // Grab the last active, or the first project
   // $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
@@ -112,24 +120,25 @@ pocketClock.controller('ActivityFactoryCtrl',function($rootScope,$scope,$state, 
 
   // Called to select the given project
   $scope.selectProject = function(project) {
-    $scope.selectedProject = project;
-    Projects.setSelected($scope.selectedProject);
+    $scope.newTimeLog.project = project;
+   
   };
 
   // Called to select the given task
   $scope.selectServiceItem = function(serviceItem) {
-    $scope.selectedServiceItem = serviceItem;
-    ServiceItems.setSelected($scope.selectedServiceItem);
+    $scope.newTimeLog.operationcode = serviceItem;
+    
   };
 
-  $scope.$watch('selectedServiceItem',function(_svcItem){
-    
-    console.log(_svcItem)
+  $scope.clockIn = function(){
 
-    if(_svcItem){
-      $state.go('activityConfirm')
-    }
-  })
+
+
+
+    TimeClockAPI.clockIn($scope.newTimeLog)
+
+
+  }
 
 
 
@@ -171,17 +180,17 @@ pocketClock.controller('ActivityFactoryCtrl',function($rootScope,$scope,$state, 
   // Try to create the first project, make sure to defer
   // this by using $timeout so everything is initialized
   // properly
-  $timeout(function() {
-    if($scope.projects.length == 0) {
-      while(true) {
-        var projectTitle = prompt('Your first project title:');
-        if(projectTitle) {
-          createProject(projectTitle);
-          break;
-        }
-      }
-    }
-  });
+  // $timeout(function() {
+  //   if($scope.projects.length == 0) {
+  //     while(true) {
+  //       var projectTitle = prompt('Your first project title:');
+  //       if(projectTitle) {
+  //         createProject(projectTitle);
+  //         break;
+  //       }
+  //     }
+  //   }
+  // });
 
 })
 
