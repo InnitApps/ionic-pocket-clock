@@ -1,4 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400);
 
 .timer-group {
   height: 400px;
@@ -88,8 +87,8 @@
 .timer.hour .hand span {
   animation-duration: 3600s;
   -webkit-animation-duration: 3600s;
-  border-top-color: rgba(255, 0, 0, .8);
-  border-right-color: rgba(255, 0, 0, .8);
+  border-top-color: rgba(0, 240, 0, .8);
+  border-right-color: rgba(0, 240, 0, .8);
   border-width: 200px;
 }
 

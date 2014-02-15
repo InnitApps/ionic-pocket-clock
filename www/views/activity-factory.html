@@ -1,0 +1,37 @@
+<view title="'New Activity'" right-buttons="rightButtons" left-buttons="leftButtons" hide-back-button="true" class="cards-background">
+  <content has-header="true">
+
+        <div class="list card">
+
+<div class="item">
+    <h2 ng-bind="newTimeLog.operationcode.description || 'New Time Tracker'"></h2>
+    <p ng-bind="newTimeLog.project.name || 'Select an Operation Code'"></p>
+  </div>
+        <div class="list" ng-show="newTimeLog.operationcode && !newTimeLog.project">
+          <label class="item item-input">
+            <input type="text" placeholder="Search Projects..." ng-model="searchProjects.$">
+          </label>
+          <item ng-repeat="project in projects | filter:searchProjects" item="project" ng-click="selectProject(project)" ng-class="{active: selectedProject == project}">
+            <h2 ng-bind="project.name">List Item</h2>
+          </item>
+        </div>
+
+        <list ng-hide="newTimeLog.operationcode">
+          <label class="item item-input">
+            <input type="text" placeholder="Search ServiceItems" ng-model="searchItems.$">
+          </label>
+          <item ng-repeat="item in serviceItems | filter:searchItems" item="item" ng-click="selectServiceItem(item)" ng-class="{active: selectedServiceItem == item}">
+            <h2>{{item.name}}: {{item.description}}</h2>
+          </item>
+        </list>
+
+        <div class="item item-icon-left balanced" ng-show="newTimeLog.operationcode" ng-click="clockIn()">
+    <i class="icon ion-ios7-checkmark"></i>
+    Clock In
+  </div>
+
+      </div>
+  </content>
+</view>
+
+

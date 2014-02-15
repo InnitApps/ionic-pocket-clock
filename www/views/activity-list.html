@@ -1,0 +1,35 @@
+<view title="'Activity List'" right-buttons="rightButtons" hide-back-button="true" class="cards-background">
+	<content has-header="true" overflow-scroll="true">
+
+		<div class="card" ng-repeat="activity in activities" item="item" href="#/{{activity.id}}" ng-class="{active: selectedActivity == activity}">
+  			<div class="item item-text-wrap">
+    			<h2><i class="icon ion-wrench"></i> {{activity.itemName}}</h2>
+    			<p>{{activity.jobName}}</p>
+    			<p ng-if="!activity.jobId">Overhead</p>
+    			<p>{{activity.endTime | date:'shortTime'}}</p>
+  			</div>
+  			<!-- <div class="item item-text-wrap">
+    			<h3>January 26 - 8:08am - 12:34pm</h3>
+    			<h3>January 26 - 8:08am - 12:34pm</h3>
+  			</div> -->
+
+  			<div class="item tabs tabs-secondary tabs-icon-left">
+			    <a class="tab-item" href="#">
+			      <i class="icon ion-star"></i>
+			      Favorite
+			    </a>
+			    <a class="tab-item" ng-click="resumeActivity(activity)">
+			      <i class="icon ion-loop"></i>
+			      Resume
+			    </a>
+			  </div>
+		</div>
+
+
+		<!-- <list>
+  			<item ng-repeat="activity in activities" item="item" href="#/{{activity.id}}" ng-click="selectActivity(activity)" ng-class="{active: selectedActivity == activity}">
+  				<h2 ng-bind="activity.name">List Item</h2>
+  			</item>
+		</list> -->
+	</content>
+</view>

@@ -373,3 +373,55 @@ pocketClock.factory('ServiceItems', function() {
   }
 });
 
+pocketClock.factory('TimeClockAPI',function($http,$innitAPI){
+
+  //private storage of jobs
+  
+
+  //private storage of service items
+  
+  
+
+
+
+  var _Employee = new $innitAPI('api/employee')
+  var _ServiceItem = new $innitAPI('api/operationcode')
+  var _Job = new $innitAPI('api/project')
+  var _TimeLog = new $innitAPI('api/timelog')
+
+  var _liveData = {
+
+    jobs : _Job.query(),
+    employees : _Employee.query(),
+    operationcodes : _ServiceItem.query(),
+    timelogs : _TimeLog.query()
+
+  }
+
+
+  
+
+  return {
+    
+    live : _liveData,
+    clockIn : function(timeLog){
+
+      var newTimeLog = new _TimeLog(timeLog)
+
+      newTimeLog.save(function(log){
+
+        _liveData.timelogs.push(log)
+
+
+      })
+
+    }
+  
+  }
+
+
+
+
+
+
+})

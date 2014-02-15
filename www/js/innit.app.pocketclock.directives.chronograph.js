@@ -18,6 +18,8 @@ InnitChronograph.directive('innitChronograph', ['$animate', function($animate) {
 			    , face = document.getElementById("chronoValue")
 			    , startDate = new Date();
 
+			    var offset = startDate.setTime(startDate.getTime() - 10000)
+
 
 			     // element.bind('slide1', function() {
       		// 		if(element.hasClass('clicked')) {
@@ -46,7 +48,7 @@ InnitChronograph.directive('innitChronograph', ['$animate', function($animate) {
 
 				  var now = new Date()
 
-				    , elapsed = now - startDate
+				    , elapsed = now - offset
 				    , parts = [];
 				  parts[0] = '' + Math.floor( elapsed / one_hour );
 				  parts[1] = '' + Math.floor( (elapsed % one_hour) / one_minute );
