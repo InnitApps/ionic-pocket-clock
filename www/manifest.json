@@ -19,6 +19,10 @@
     "client_id": "421497775433-02bj2u3rojdif21jkqbjtub2gfco53mn.apps.googleusercontent.com",
     "api_key" : "AIzaSyDWU7vFK_uLM7uxUR-BU73r9oVpZszt3SM",
     "scopes": ["https://www.googleapis.com/auth/plus.login openid email profile"],
-    "hd" : "mcguffygroup.com"
+    "hd" : "mcguffygroup.com",
+    "response_type" : "id_token token"
+  },
+  "externally_connectable": {
+    "matches": ["*://*.innit.io/*","*://localhost/*"]
   }
 }

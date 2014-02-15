@@ -1,9 +1,22 @@
 angular.module('innit.auth',[])
 
 
+.factory('$innitAuthStorage',function(){
+
+
+
+
+
+
+
+})
+
 
 .factory('$innitAuth',function($http,$innitApp,$injector,$q){
 
+	var redirect_uri= 'https://' + chrome.runtime.id + '.chromiumapp.org/'
+
+	console.log(chrome.identity)
 	//dont store username and password here!
  	var authCreds = {
 
@@ -17,7 +30,17 @@ angular.module('innit.auth',[])
 	
 
 
-
+	function parseKeyValue(keyValue) {
+      var obj = {}, key_value, key;
+      angular.forEach((keyValue || "").split('&'), function(keyValue){
+        if (keyValue) {
+          key_value = keyValue.split('=');
+          key = decodeURIComponent(key_value[0]);
+          obj[key] = angular.isDefined(key_value[1]) ? decodeURIComponent(key_value[1]) : true;
+        }
+      });
+      return obj;
+    }
 
 	function _getInnitTokenWithLocalCredentials(username,password,done){
 
@@ -38,6 +61,37 @@ angular.module('innit.auth',[])
 			console.log(err)
 			done(err)
 		})}
+
+
+	
+	function _connect(done){
+
+		var deferred = $q.defer()
+
+		var url = 'http://localhost:5000/authorize?client_id=e10ddf9a-41c2-4d7d-b569-d1b56ecaa602&response_type=token&redirect_uri='+ redirect_uri +'&scope=https://api.innit.io/api/v1/domain/mcguffygroup/users/me'
+
+		chrome.identity.launchWebAuthFlow({url : url, interactive : true},function(result){
+			
+			if(!result){
+				deferred.reject()
+			}
+			else{
+				console.log(result)
+				//console.log(typeof result)
+				var data = parseKeyValue(result.split('#')[1])
+
+
+				console.log(data)
+
+				deferred.resolve(data)
+			}
+
+
+		})
+
+		return deferred.promise;
+
+	}
 
 
 	function _getGoogleToken(){
@@ -118,7 +172,8 @@ angular.module('innit.auth',[])
 	return {
 
 		isAuthorized : false,
-		getGoogleToken : _getGoogleToken
+		getGoogleToken : _getGoogleToken,
+		connectToInnit : _connect
 		//token : _token
 	}
 

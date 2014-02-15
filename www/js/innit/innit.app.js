@@ -125,7 +125,10 @@ angular.module('innit.app',['ionic','innit.auth','innit.storage'])
 	
 	
 	
+	$scope.connectToInnit = function(){
 
+		$scope.tokenData = $innitAuth.connectToInnit()
+	}
 
 
 	$scope.signInWithGoogle = function(){
