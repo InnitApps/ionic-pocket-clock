@@ -39,48 +39,59 @@
 		    <!-- Modal header bar -->
 		    <header class="bar bar-header bar-positive">
 		    <button class="button button-clear button-clear" ng-click="closeNewTimeLog()">Cancel</button>
-		      <h1 class="title" ng-if="!selectedProject && !selectedServiceItem">New {{titleText}} Activity</h1>
-		      <h1 class="title" ng-if="selectedProject && !selectedServiceItem">{{selectedProject.name}}</h1>
-		      <h1 class="title" ng-if="selectedServiceItem">Confirm</h1>
-		    <button class="button" ng-click="toggleOverhead()">{{toggleButtonText}}</button>
+		      <h1 class="title" ng-if="newTimeLog.project && !newTimeLog.serviceItem">Project Name</h1>
+		      <h1 class="title" ng-if="newTimeLog.serviceItem">Confirm</h1>
 		    </header>
 
 		    <!-- Modal content area -->
 		    <content has-header="true">
 
+		    <div class="button-bar">
+  					<a class="button" ng-click="selectedLogFactoryModel = logFactoryModel[0]">Billable</a>
+  					<a class="button" ng-click="selectedLogFactoryModel = logFactoryModel[1]">Overhead</a>
+			</div>
 		      <form ng-submit="createTimeLog()">
-		        <list ng-show="showProjects">
+		        <list ng-show="selectedLogFactoryModel.type == 'Billable' && !newTimeLog.project">
 		          <label class="item item-input">
 		            <input type="text" placeholder="Search Projects..." ng-model="project">
 		          </label>
-		          <item ng-repeat="project in projects | filter:project" item="project" ng-click="selectProject(project)" ng-class="{active: selectedProject == project}">
+		          <item ng-repeat="project in projects | filter:project" item="project" ng-click="newTimeLog.project = project">
 		            <h2 ng-bind="project.name">List Item</h2>
 		          </item>
 		        </list>
 
-		        <list ng-show="showServiceItems && !selectedServiceItem">
+		        <list ng-show="selectedLogFactoryModel.type == 'Billable' && newTimeLog.project && !newTimeLog.serviceItem">
 		          <label class="item item-input">
-		            <input type="text" placeholder="Search ServiceItems" ng-model="item">
+		            <input type="text" placeholder="Search Billable Service Items" ng-model="item">
 		          </label>
-		          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="selectServiceItem(item)" ng-class="{active: selectedServiceItem == item}">
+		          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="newTimeLog.serviceItem = item">
 		            <h2>{{item.name}}: {{item.description}}</h2>
 		          </item>
 		        </list>
 
 
-		        <div class="list card" ng-if="selectedServiceItem">
+		        <list ng-show="selectedLogFactoryModel.type == 'Overhead' && !newTimeLog.serviceItem">
+		          <label class="item item-input">
+		            <input type="text" placeholder="Search Overhead Service Items" ng-model="item">
+		          </label>
+		          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="newTimeLog.serviceItem = item">
+		            <h2>{{item.name}}: {{item.description}}</h2>
+		          </item>
+		        </list>
 
-				  <a href="#" class="item item-icon-left" ng-show="selectedProject" ng-click="changeProjectSelection()">
+		        <div class="list card" ng-show="newTimeLog.serviceItem">
+
+				  <a href="#" class="item item-icon-left" ng-show="newTimeLog.project" ng-click="changeProjectSelection()">
 				    <i class="icon ion-briefcase"></i>
-				    {{selectedProject.name}}
+				    newTimeLog.project.name
 				  </a>
 
-				  <a href="#" class="item item-icon-left" ng-show="selectedServiceItem" ng-click="changeServiceItemSelection()" >
+				  <a href="#" class="item item-icon-left" ng-show="newTimeLog.serviceItem" ng-click="changeServiceItemSelection()" >
 				    <i class="icon ion-wrench"></i>
-				    {{selectedServiceItem.name}}: {{selectedServiceItem.description}}
+				    newTimeLog.serviceItem.name: newTimeLog.serviceItem.description
 				  </a>
 
-				    <button type="submit" class="button button-block button-positive" ng-show="selectedServiceItem">Confirm Activity</button>
+				    <button type="submit" class="button button-block button-positive" ng-show="newTimeLog.serviceItem">Confirm Activity</button>
 				 
 				</div>
 

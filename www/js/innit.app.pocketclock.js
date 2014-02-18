@@ -51,7 +51,7 @@ InnitPocketClock.config(function($stateProvider, $urlRouterProvider,$innitAppPro
 
    // $locationProvider.html5Mode(true);
     // if none of the above are matched, go to this one
-    $urlRouterProvider.otherwise("/app/launch");
+    $urlRouterProvider.otherwise("/list");
 })
 
 

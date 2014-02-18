@@ -25,7 +25,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
       content: '<i class="icon ion-compose"></i>',
       tap: function(e) {
         console.log("let's create a new log")
-        $scope.newTimeLog()
+        $scope.timeLogModal.show();
       }
     }
   ]
@@ -159,16 +159,6 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
     $scope.timeLogModal.hide();
   };
 
-  // Open our new time log modal
-  $scope.newTimeLog = function() {
-    console.log("show the modal")
-    $scope.selectedProject = null
-    $scope.selectedServiceItem = null
-    $scope.showProjects = true
-    $scope.isOverhead = false
-    $scope.timeLogModal.show();
-  };
-
   // Close the new time log modal
   $scope.closeNewTimeLog = function() {
     $scope.timeLogModal.hide();
@@ -176,72 +166,44 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
 
   //Modal
 
-  $scope.selectedProject = null
-  $scope.selectedServiceItem = null
-  $scope.showProjects = true
-  $scope.showServiceItems = false
-  $scope.isOverhead = false
-  $scope.toggleButtonText = "Overhead"
-  $scope.titleText = "Billable"
+  $scope.newTimeLog = {
+    project: null,
+    serviceItem: null
+  }
 
-  $scope.$watch('isOverhead',function(val){
-    if(val == true){
-
-      $scope.toggleButtonText = "Billable"
-      $scope.titleText = "Overhead"
-      $scope.showProjects = false
-      $scope.showServiceItems = true
-
+  $scope.logFactoryModel = [
+    {
+      type: "Billable",
+      setToDefault: function(){
+        $scope.newTimeLog.project = null
+        $scope.newTimeLog.serviceItem = null
+        // $scope.showProjects = true
+        // $scope.showServiceItems = false
+      }
+    },
+    {
+      type: "Overhead",
+      setToDefault: function(){
+        $scope.newTimeLog.project = null
+        $scope.newTimeLog.serviceItem = null
+        // $scope.showProjects = false
+        // $scope.showServiceItems = true
+      }
     }
-    else if(val == false){
-      $scope.toggleButtonText = "Overhead"
-      $scope.titleText = "Billable"
-      $scope.showProjects = true
-      $scope.showServiceItems = false
-      
-    }
-    
-    $scope.selectedProject = null
-    $scope.selectedServiceItem = null
+  ]
 
-  })
-
-  $scope.toggleOverhead = function() {
-
-        $scope.isOverhead = !$scope.isOverhead
-  };
-
-  // Called to select the given project
-  $scope.selectProject = function(project) {
-
-    $scope.selectedProject = project;
-    Projects.setSelected($scope.selectedProject);
-
-    $scope.showProjects = false
-    $scope.showServiceItems = true
-  };
-
-  // Called to select the given service item
-  $scope.selectServiceItem = function(serviceItem) {
-    $scope.selectedServiceItem = serviceItem;
-    ServiceItems.setSelected($scope.selectedServiceItem);
-
-    $scope.showProjects = false
-    $scope.showServiceItems = false
-
-  };
+  $scope.selectedLogFactoryModel = $scope.logFactoryModel[0]
 
    $scope.changeProjectSelection = function(){
-    $scope.selectedProject = null
-    $scope.selectedServiceItem = null
-    $scope.showProjects = true
-    $scope.showServiceItems = false
+    $scope.newTimeLog.project = null
+    $scope.newTimeLog.serviceItem = null
+    // $scope.showProjects = true
+    // $scope.showServiceItems = false
 
   }
 
   $scope.changeServiceItemSelection = function(){
-    $scope.selectedServiceItem = null
-    $scope.showServiceItems = true
+    $scope.newTimeLog.serviceItem
 
   }
 
