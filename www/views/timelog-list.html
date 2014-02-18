@@ -1,8 +1,12 @@
+<nav-bar animation="nav-title-slide-ios7" 
+               type="bar-positive" 
+               back-button-type="button-icon" 
+               back-button-icon="ion-arrow-left-c"></nav-bar>
 <view title="'Recent Activity'" right-buttons="rightButtons" hide-back-button="true">
 
 	<content has-header="true">
-		<div class="card" ng-repeat="log in timeLogs track by $index" item="log" ng-class="{active: selectedTimeLog == log}">
-			<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" >
+		<div class="card" ng-repeat="log in timeLogs | orderBy:'isActive':true" item="log" ng-class="{active: selectedTimeLog == log}">
+			<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" class="balanced" >
       			<h2><i class="icon ion-loading-c" ng-if="log.isActive"></i> {{log.itemName}}</h2>
 				<p>{{log.jobName}}</p>
 				<p>{{log.endTime | date:'shortTime'}}</p>

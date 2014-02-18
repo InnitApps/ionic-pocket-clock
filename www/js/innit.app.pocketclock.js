@@ -3,7 +3,7 @@ var InnitPocketClock = angular.module('innit.app.pocketclock', ['ionic','innit.a
 InnitPocketClock.config(function($stateProvider, $urlRouterProvider,$innitAppProvider,$locationProvider) {
 
 
-  $innitAppProvider.setBaseUrl('http://192.168.1.68:1337')
+  $innitAppProvider.setBaseUrl('http://localhost:1337');
  // $innitAPIProvider.setUrl('http://localhost:1337')
 
   $stateProvider
@@ -38,6 +38,16 @@ InnitPocketClock.config(function($stateProvider, $urlRouterProvider,$innitAppPro
       templateUrl: "views/activity-detail.html",
       controller: 'ActivityDetailCtrl'
     })
+
+    $stateProvider
+    .state('timeLogList', {
+      url: "/list",
+      templateUrl: "/views/timelog-list.html",
+      controller: 'TimeLogListCtrl'
+    })
+
+    // if none of the above are matched, go to this one
+   // $urlRouterProvider.otherwise("/list");
 
    // $locationProvider.html5Mode(true);
     // if none of the above are matched, go to this one

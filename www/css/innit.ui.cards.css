@@ -4,8 +4,39 @@
 };
 
 
+.move.ng-enter,
+.move.ng-leave,
+.move.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+ 
+.move.ng-enter,
+.move.ng-move {
+ 
+}
+ 
 
-
+.icon {
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: scale(1);
+} 
+.move.ng-move.ng-move-active,
+.move.ng-enter.ng-enter-active {
+  opacity: 1;
+ 
+}
+ 
+.move.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+ 
+.move.ng-leave.ng-leave-active {
+  
+}
 
 .card item {
 	font-family: Roboto!important;

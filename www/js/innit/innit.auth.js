@@ -16,14 +16,14 @@ angular.module('innit.auth',[])
 
 	var redirect_uri= 'https://' + chrome.runtime.id + '.chromiumapp.org/'
 
-	console.log(chrome.identity)
 	//dont store username and password here!
  	var authCreds = {
 
  		google : {
  			profile : undefined,
  			token : undefined,
- 			tokenInfo : undefined
+ 			tokenInfo : undefined,
+ 			
  		}
 
 	};
@@ -44,7 +44,7 @@ angular.module('innit.auth',[])
 
 	function _getInnitTokenWithLocalCredentials(username,password,done){
 
-		$http.post($innitApp.config.baseUrl + '/auth/local/token',loginUser).success(function(res){
+		$http.post($innitApp.config.baseUrl + '/auth/token',loginUser).success(function(res){
 			
 			if(res.token){
 				$http.defaults.useXDomain = true;
@@ -64,11 +64,11 @@ angular.module('innit.auth',[])
 
 
 	
-	function _connect(done){
+	function _connect(clientId,scope,done){
 
 		var deferred = $q.defer()
 
-		var url = 'http://localhost:5000/authorize?client_id=e10ddf9a-41c2-4d7d-b569-d1b56ecaa602&response_type=token&redirect_uri='+ redirect_uri +'&scope=https://api.innit.io/api/v1/domain/mcguffygroup/users/me'
+		var url = $innitApp.config.baseUrl + '/dialog/authorize?client_id=' + clientId + '&response_type=token&redirect_uri='+ redirect_uri +'&' + scope
 
 		chrome.identity.launchWebAuthFlow({url : url, interactive : true},function(result){
 			
