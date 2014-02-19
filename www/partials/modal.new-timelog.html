@@ -1,0 +1,70 @@
+
+
+		  <div class="modal">
+
+		    <!-- Modal header bar -->
+		    <header class="bar bar-header bar-positive">
+		    <button class="button button-clear button-clear" ng-click="closeNewTimeLog()">Cancel</button>
+		      <h1 class="title" ng-if="!newTimeLog.project && !newTimeLog.serviceItem">New Activity</h1>
+		      <h1 class="title" ng-if="newTimeLog.project && !newTimeLog.serviceItem">{{newTimeLog.project.name}}</h1>
+		      <h1 class="title" ng-if="newTimeLog.serviceItem">Confirm</h1>
+		    </header>
+
+		    <!-- Modal content area -->
+		    <content has-header="true">
+
+		    <div class="button-bar">
+  					<a class="button" ng-click="selectedLogFactoryModel = logFactoryModel[0]; logFactoryModel[0].setToDefault()">Billable</a>
+  					<a class="button" ng-click="selectedLogFactoryModel = logFactoryModel[1]; logFactoryModel[1].setToDefault()">Overhead</a>
+			</div>
+		      <form ng-submit="createTimeLog()">
+		        <list ng-show="selectedLogFactoryModel.type == 'Billable' && !newTimeLog.project">
+		          <label class="item item-input">
+		            <input type="text" placeholder="Search Billable Projects..." ng-model="project">
+		          </label>
+		          <item ng-repeat="project in projects | filter:project" item="newTimeLog.project" ng-click="newTimeLog.project = project">
+		            <h2 ng-bind="project.name">List Item</h2>
+		          </item>
+		        </list>
+
+		        <list ng-show="selectedLogFactoryModel.type == 'Billable' && newTimeLog.project && !newTimeLog.serviceItem">
+		          <label class="item item-input">
+		            <input type="text" placeholder="Search Billable Service Items" ng-model="item">
+		          </label>
+		          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="newTimeLog.serviceItem = item">
+		            <h2>{{item.name}}: {{item.description}}</h2>
+		          </item>
+		        </list>
+
+
+		        <list ng-show="selectedLogFactoryModel.type == 'Overhead' && !newTimeLog.serviceItem">
+		          <label class="item item-input">
+		            <input type="text" placeholder="Search Overhead Service Items" ng-model="item">
+		          </label>
+		          <item ng-repeat="item in serviceItems | filter:item" item="item" ng-click="newTimeLog.serviceItem = item">
+		            <h2>{{item.name}}: {{item.description}}</h2>
+		          </item>
+		        </list>
+
+		        <div class="list card" ng-show="newTimeLog.serviceItem">
+
+				  <a href="#" class="item item-icon-left" ng-show="newTimeLog.project" ng-click="newTimeLog.project = null;newTimeLog.serviceItem = null">
+				    <i class="icon ion-briefcase"></i>
+				    {{newTimeLog.project.name}}
+				  </a>
+
+				  <a href="#" class="item item-icon-left" ng-show="newTimeLog.serviceItem" ng-click="newTimeLog.serviceItem = null" >
+				    <i class="icon ion-wrench"></i>
+				    {{newTimeLog.serviceItem.name}}: {{newTimeLog.serviceItem.description}}
+				  </a>
+
+				    <button type="submit" class="button button-block button-positive" ng-show="newTimeLog.serviceItem">Confirm Activity</button>
+				 
+				</div>
+
+		      </form>
+
+		    </content>
+
+		  </div>
+

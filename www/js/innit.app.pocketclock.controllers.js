@@ -25,6 +25,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
       content: '<i class="icon ion-compose"></i>',
       tap: function(e) {
         console.log("let's create a new log")
+        $scope.selectedLogFactoryModel.setToDefault()
         $scope.timeLogModal.show();
       }
     }
@@ -137,7 +138,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   }
 
   // Create and load the Modal
-  $ionicModal.fromTemplateUrl('new-timelog.html', function(modal) {
+  $ionicModal.fromTemplateUrl('partials/modal.new-timelog.html', function(modal) {
     $scope.timeLogModal = modal;
   }, {
     scope: $scope,
@@ -167,8 +168,8 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   //Modal
 
   $scope.newTimeLog = {
-    project: null,
-    serviceItem: null
+    project: "test",
+    serviceItem: "test"
   }
 
   $scope.logFactoryModel = [
@@ -193,19 +194,6 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   ]
 
   $scope.selectedLogFactoryModel = $scope.logFactoryModel[0]
-
-   $scope.changeProjectSelection = function(){
-    $scope.newTimeLog.project = null
-    $scope.newTimeLog.serviceItem = null
-    // $scope.showProjects = true
-    // $scope.showServiceItems = false
-
-  }
-
-  $scope.changeServiceItemSelection = function(){
-    $scope.newTimeLog.serviceItem
-
-  }
 
 })
 
