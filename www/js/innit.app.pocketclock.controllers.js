@@ -10,6 +10,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   
   console.log("Hello Time Log List Controller!")
 
+
   $scope.leftButtons = [
     { 
       type: 'button-positive',

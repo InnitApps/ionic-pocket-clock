@@ -31,7 +31,7 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
               "columnName" : "301",
               "type" : "Some Item Type"
             },
-            "itemName" : "Item One",
+            "itemName" : "Mechanical Engineering",
             "jobId" : null,
             "jobName" : null,
             "startTime": "2013-11-11T10:57:05.000Z",
@@ -47,12 +47,12 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
               "columnName" : "302",
               "type" : "Some Item Type"
             },
-            "itemName" : "Item Two",
+            "itemName" : "Pipe Fitting",
             "jobId" : {
               "columnName" : "402",
               "type" : "Some Job Type"
             },
-            "jobName" : "Job Two",
+            "jobName" : "3MM Amine Plant",
             "startTime": "2013-11-11T15:57:05.000Z",
             "endTime": "2013-11-11T15:59:05.000Z"
           },
@@ -66,12 +66,12 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
               "columnName" : "303",
               "type" : "Some Item Type"
             },
-            "itemName" : "Item Three",
+            "itemName" : "Welding",
             "jobId" : {
               "columnName" : "403",
               "type" : "Some Job Type"
             },
-            "jobName" : "Job Three",
+            "jobName" : "3MM Amine Plant",
             "startTime": "2013-11-11T16:57:05.000Z",
             "endTime": "2013-11-11T16:59:05.000Z"
           }
