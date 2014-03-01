@@ -1,4 +1,4 @@
-angular.module('innit.apps.pocketclock.filters', [])
+angular.module('innit.app.pocketclock.filters', [])
 
 .filter('fromNow', function() {
     return function(dateString) {

@@ -21,60 +21,60 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
     all: function() {
 
       return [
-        {
-           "id": 100,
-           "employeeId": "QB:123",
-           "vendor" : "Vendor One",
-           "customerId": "201",
-           "customerName": "Customer One",
-           "itemId" : {
-              "columnName" : "301",
-              "type" : "Some Item Type"
-            },
-            "itemName" : "Mechanical Engineering",
-            "jobId" : null,
-            "jobName" : null,
-            "startTime": "2013-11-11T10:57:05.000Z",
-            "endTime": "2013-11-11T10:57:05.000Z"
-          },
-          {
-           "id": 101,
-           "employeeId": "QB:123",
-           "vendor" : "Vendor Two",
-           "customerId": "202",
-           "customerName": "Customer Two",
-           "itemId" : {
-              "columnName" : "302",
-              "type" : "Some Item Type"
-            },
-            "itemName" : "Pipe Fitting",
-            "jobId" : {
-              "columnName" : "402",
-              "type" : "Some Job Type"
-            },
-            "jobName" : "3MM Amine Plant",
-            "startTime": "2013-11-11T15:57:05.000Z",
-            "endTime": "2013-11-11T15:59:05.000Z"
-          },
-          {
-           "id": 102,
-           "employeeId": "QB:123",
-           "vendor" : "Vendor Three",
-           "customerId": "203",
-           "customerName": "Customer Three",
-           "itemId" : {
-              "columnName" : "303",
-              "type" : "Some Item Type"
-            },
-            "itemName" : "Welding",
-            "jobId" : {
-              "columnName" : "403",
-              "type" : "Some Job Type"
-            },
-            "jobName" : "3MM Amine Plant",
-            "startTime": "2013-11-11T16:57:05.000Z",
-            "endTime": "2013-11-11T16:59:05.000Z"
-          }
+        // {
+        //    "id": 100,
+        //    "employeeId": "QB:123",
+        //    "vendor" : "Vendor One",
+        //    "customerId": "201",
+        //    "customerName": "Customer One",
+        //    "itemId" : {
+        //       "columnName" : "301",
+        //       "type" : "Some Item Type"
+        //     },
+        //     "itemName" : "Mechanical Engineering",
+        //     "jobId" : null,
+        //     "jobName" : null,
+        //     "startTime": "2014-02-15T10:57:05.000Z",
+        //     "endTime": "2014-02-15T10:57:05.000Z"
+        //   },
+        //   {
+        //    "id": 101,
+        //    "employeeId": "QB:123",
+        //    "vendor" : "Vendor Two",
+        //    "customerId": "202",
+        //    "customerName": "Customer Two",
+        //    "itemId" : {
+        //       "columnName" : "302",
+        //       "type" : "Some Item Type"
+        //     },
+        //     "itemName" : "Pipe Fitting",
+        //     "jobId" : {
+        //       "columnName" : "402",
+        //       "type" : "Some Job Type"
+        //     },
+        //     "jobName" : "3MM Amine Plant",
+        //     "startTime": "2013-11-11T15:57:05.000Z",
+        //     "endTime": "2013-11-11T15:59:05.000Z"
+        //   },
+        //   {
+        //    "id": 102,
+        //    "employeeId": "QB:123",
+        //    "vendor" : "Vendor Three",
+        //    "customerId": "203",
+        //    "customerName": "Customer Three",
+        //    "itemId" : {
+        //       "columnName" : "303",
+        //       "type" : "Some Item Type"
+        //     },
+        //     "itemName" : "Welding",
+        //     "jobId" : {
+        //       "columnName" : "403",
+        //       "type" : "Some Job Type"
+        //     },
+        //     "jobName" : "3MM Amine Plant",
+        //     "startTime": "2013-11-11T16:57:05.000Z",
+        //     "endTime": "2013-11-11T16:59:05.000Z"
+        //   }
       ]
     },
     getLastTimeLog: function(){

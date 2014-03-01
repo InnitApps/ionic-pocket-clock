@@ -6,7 +6,7 @@
 
 	<content has-header="true">	
 
-		<div class="list">
+		<!-- <div class="list">
 
 		  <div class="item item-input-inset">
 		    <label class="item-input-wrapper">
@@ -17,21 +17,46 @@
 		    </button>
 		  </div>
 
-		</div>
+		</div> -->
 
-		<div class="card" ng-repeat="log in timeLogs | orderBy:'isActive':true" item="log" ng-class="{active: selectedTimeLog == log}">
-			<toggle ng-model="log.isActive" ng-checked="log.isActive" ng-change="toggleTimeLog(log);" class="balanced" >
+		<div class="card" ng-repeat="log in timeLogs | orderBy:'startTime':true" item="selectedTimeLog" ng-class="{active: selectedTimeLog == log}">
+			<!-- <toggle ng-model="log.isActive" ng-checked="!log.endTime" ng-change="toggleTimeLog(log)" class="balanced" ng-if="!log.isActive">
 				<h2 class="title">{{log.itemName}}</h2>
-				<h2 class="title">{{log.jobName}}</h2>
+				<h2 class="title" ng-if="!log.jobId">Overhead</h2>
+				<h2 class="title" ng-if="log.jobId">{{log.jobName}}</h2>
 				<p>{{log.endTime | date:'shortTime'}}</p>
-    		</toggle>
+    		</toggle> -->
+
+    		<!-- <h2 class="title" ng-if="log.isActive">{{log.itemName}}</h2>
+			<h2 class="title" ng-if="log.isActive">{{log.jobName}}</h2> -->
+
+			  <div class="item">
+			    <h2 class="title">{{log.itemName}}</h2>
+			    <h2 class="title" ng-if="!log.jobId">Overhead</h2>
+				<h2 class="title" ng-if="log.jobId">{{log.jobName}}</h2>
+			  </div>
+
+			 <!--  <div class="item item-image" >
+			    <img style="height:175px;" ng-if="log.isActive" >
+			  </div> -->
+			  <div class="item">
+			  	<div class="row" ng-if="log.isActive">
+	  				<div class="col col-80 col-offset-10">
+	  					<p>Clocked in since {{log.startTime | date:'shortTime'}}</p>
+	  					<button class="button icon-left ion-home button-assertive button-outline button-block" ng-click="endTimeLog(log)">End Activity</button>
+	  				</div>
+			  	</div>
+			  </div>
+			  
+			  
+			  
 		</div>
 
-		<div class="card" ng-if="timeLogs.length == 0">
-  			<div class="item item-text-wrap">
-    			<h2>You don't have any recent activity...</h2>
-  			</div>
-		</div>
+	
+  			
+    			<h2 ng-if="timeLogs.length == 0">You don't have any recent activity...</h2>
+  		
+		
 
 	</content>
 

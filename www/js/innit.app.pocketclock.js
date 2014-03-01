@@ -1,4 +1,4 @@
-var InnitPocketClock = angular.module('innit.app.pocketclock', ['ionic','innit.app','innit.app.pocketclock.controllers','innit.app.pocketclock.controllers','innit.ui.chronograph']);
+var InnitPocketClock = angular.module('innit.app.pocketclock', ['ionic','innit.app','innit.app.pocketclock.controllers','innit.app.pocketclock.filters','innit.ui.chronograph']);
 
 InnitPocketClock.config(function($stateProvider, $urlRouterProvider,$innitAppProvider,$locationProvider) {
 

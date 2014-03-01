@@ -1,4 +1,4 @@
-var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app.pocketclock.factories','ngAnimate']);
+var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app.pocketclock.factories','innit.app.pocketclock.filters','ngAnimate']);
 
 // pocketClock.controller('NavigationCtrl',function($rootScope,$scope,$state){
   
@@ -9,7 +9,6 @@ var pocketClock = angular.module('innit.app.pocketclock.controllers',['innit.app
 pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeClock,TimeLogs,Projects,ServiceItems,$ionicModal){
   
   console.log("Hello Time Log List Controller!")
-
 
   $scope.leftButtons = [
     { 
@@ -36,106 +35,56 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   $scope.projects = Projects.all();
   $scope.serviceItems = ServiceItems.all();
 
+  // $scope.selectedTimeLog = $scope.timeLogs[0]
+  
+  // $scope.$watch('selectedTimeLog',function(log){
 
-  $scope.$watch('timeLogs[0]',function(_log){
-    
-    console.log(_log)
-    if(!_log.endTime){
-      _log.isActive = true
-      // TimeClock.activeTimeLog = _log
-      
-    }
-    else{
-      _log.isActive = false
+  //   if(!log.endTime){
 
-    }
-
-  })
-
-
-
-  // $scope.$watch('selectedTimeLog.isActive',function(active){
-
-  //   if(active){
+  //     $scope.selectedTimeLog.isActive = true
 
   //     angular.forEach($scope.timeLogs, function(_log) { 
         
-  //       _log.isDisabled = true
-      
-  //     });
-
-  //     $scope.selectedTimeLog.isDisabled = false
-
-  //   }
-  //   else if(!active){
-
-  //     angular.forEach($scope.timeLogs, function(_log) { 
-        
-  //       _log.isDisabled = false
+  //       _log.isVisible = false 
 
   //     });
+
+  //     $scope.selectedTimeLog.isVisible = true
+
   //   }
   //   else{
+      
   //     angular.forEach($scope.timeLogs, function(_log) { 
         
-  //       _log.isDisabled = false
+  //       _log.isVisible = true 
 
   //     });
   //   }
+    
   // })
 
-  
-
-  $scope.toggleTimeLog = function(timeLog){
-    $scope.selectedTimeLog = timeLog
-    //toggle the value
-    $scope.selectedTimeLog.isActive = !$scope.selectedTimeLog.isActive
-    
-    //disable all other toggles based on a truthy active value
-    if($scope.selectedTimeLog.isActive){
-
-      angular.forEach($scope.timeLogs, function(_log) { 
-        
-        _log.isDisabled = true
-        _log.isActive = false 
-
-      });
-
-      $scope.selectedTimeLog.isDisabled = false
-      $scope.selectedTimeLog.isActive = true
-
-    }
-    else if(!$scope.selectedTimeLog.isActive){
-
-      angular.forEach($scope.timeLogs, function(_log) {
-
-        _log.isDisabled = false
-        _log.isActive = false                   
-      });
-
-    }
-  }
 
   $scope.resumeTimeLog = function(timeLog){
 
-    //returns a blank time log prototype to work with
-    var newTimeLog = TimeLogs.newTimeLog();
+    // //returns a blank time log prototype to work with
+    // var newTimeLog = TimeLogs.newTimeLog();
 
-    if($scope.selectedTimeLog.jobId){
-      TimeLogs.setProject(newTimeLog,$scope.selectedTimeLog)
-    }
+    // if($scope.selectedTimeLog.jobId){
+    //   TimeLogs.setProject(newTimeLog,$scope.selectedTimeLog)
+    // }
     
-    TimeLogs.setServiceItem(newTimeLog,$scope.selectedTimeLog)
+    // TimeLogs.setServiceItem(newTimeLog,$scope.selectedTimeLog)
     // TimeLogs.registerTimeLog(newTimeLog)
-    newTimeLog.startDate = new Date();
-    $scope.timeLogs.unshift(newTimeLog)
+    // newTimeLog.startDate = new Date();
+    // $scope.timeLogs.unshift(newTimeLog)
   }
 
-  $scope.endTimeLog = function(log){
+  $scope.endTimeLog = function(log){ 
+    console.log(log)
 
     log.endTime = new Date();
     log.isActive = false
-    TimeClock.refreshTimeClock();
+    // TimeClock.refreshTimeClock();
   }
 
   // Create and load the Modal
@@ -146,18 +95,32 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
     animation: 'slide-in-up'
   });
 
-  // Called when the form is submitted
-  $scope.createTimeLog = function() {
-    
-    //returns a blank time log prototype to work with
-    var newTimeLog = TimeLogs.newTimeLog();
+  $scope.newTimeLog = {
+    itemId: null,
+    itemName: null,
+    jobId: null,
+    jobName: null,
 
-    //TODO: should turn this into chained promises...
-    TimeLogs.setProject(newTimeLog,Projects.getSelected())
-    TimeLogs.setServiceItem(newTimeLog,ServiceItems.getSelected())
-    // TimeLogs.registerTimeLog(newTimeLog)
-    newTimeLog.startTime = new Date();
-    $scope.timeLogs.unshift(newTimeLog)
+  }
+
+  // Called when the form is submitted
+  $scope.createTimeLog = function(timeLog) {
+    
+    var newTimeLog = {
+    employeeId: "QB:123",
+    vendor: "Vendor Name",
+    customerId: "Customer ID",
+    itemId: timeLog.itemId,
+    itemName: timeLog.itemName,
+    jobId: timeLog.jobId,
+    jobName: timeLog.jobName,
+    startTime: new Date(),
+    endTime: null
+  }
+    
+    console.log(newTimeLog)
+    newTimeLog.isActive = true
+    $scope.timeLogs.push(newTimeLog)
     $scope.timeLogModal.hide();
   };
 
@@ -168,33 +131,32 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
 
   //Modal
 
-  $scope.newTimeLog = {
-    project: "test",
-    serviceItem: "test"
-  }
+  
 
   $scope.logFactoryModel = [
     {
       type: "Billable",
       setToDefault: function(){
-        $scope.newTimeLog.project = null
-        $scope.newTimeLog.serviceItem = null
-        // $scope.showProjects = true
-        // $scope.showServiceItems = false
+        $scope.newTimeLog.jobId = null
+        $scope.newTimeLog.jobName = null
+        $scope.newTimeLog.itemId = null
+        $scope.newTimeLog.itemName = null
       }
     },
     {
       type: "Overhead",
       setToDefault: function(){
-        $scope.newTimeLog.project = null
-        $scope.newTimeLog.serviceItem = null
-        // $scope.showProjects = false
-        // $scope.showServiceItems = true
+        $scope.newTimeLog.jobId = null
+        $scope.newTimeLog.jobName = null
+        $scope.newTimeLog.itemId = null
+        $scope.newTimeLog.itemName = null
       }
     }
   ]
 
   $scope.selectedLogFactoryModel = $scope.logFactoryModel[0]
+
+
 
 })
 
