@@ -10,7 +10,7 @@
     
     <link rel="stylesheet" href="css/innit.directive.chronograph.css">
     <link rel="stylesheet" href="css/innit.ui.cards.css">
-
+    
     <script src="js/ionic/ionic.js"></script>
     <script src="js/angular/angular.js"></script>
     <script src="js/angular/angular-cache.js"></script>
@@ -48,13 +48,19 @@
   <body ng-app="innit.app.pocketclock" ng-csp>
     
       <!-- The nav bar that will be updated as we navigate -->
-     <!--  <nav-bar animation="nav-title-slide-ios7" 
-               type="bar-dark" 
+      <!-- <ion-nav-view animation="nav-title-slide-ios7" 
+               class="bar-positive"
                back-button-type="button-icon" 
-               back-button-icon="ion-arrow-left-c" style="-webkit-app-region: drag;"></nav-bar> -->
+               back-button-icon="ion-arrow-left-c" style="-webkit-app-region: drag;">
+      </ion-nav-view> -->
+      <ion-nav-bar class="bar-positive nav-title-slide-ios7">
+        <ion-nav-back-button class="button-icon">
+          <i class="ion-navicon"></i>
+        </ion-nav-back-button>
+      </ion-nav-bar>
 
       <!-- where the initial view template will be rendered -->
-      <nav-view animation="slide-out-up" class="cards-background"></nav-view>
+      <ion-nav-view animation="slide-out-up" class="cards-background"></ion-nav-view>
 
   </body>
 </html>

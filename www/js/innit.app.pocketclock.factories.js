@@ -21,67 +21,104 @@ pocketClock.factory('TimeLogs', function($q,$timeout) {
     all: function() {
 
       return [
-        // {
-        //    "id": 100,
-        //    "employeeId": "QB:123",
-        //    "vendor" : "Vendor One",
-        //    "customerId": "201",
-        //    "customerName": "Customer One",
-        //    "itemId" : {
-        //       "columnName" : "301",
-        //       "type" : "Some Item Type"
-        //     },
-        //     "itemName" : "Mechanical Engineering",
-        //     "jobId" : null,
-        //     "jobName" : null,
-        //     "startTime": "2014-02-15T10:57:05.000Z",
-        //     "endTime": "2014-02-15T10:57:05.000Z"
-        //   },
-        //   {
-        //    "id": 101,
-        //    "employeeId": "QB:123",
-        //    "vendor" : "Vendor Two",
-        //    "customerId": "202",
-        //    "customerName": "Customer Two",
-        //    "itemId" : {
-        //       "columnName" : "302",
-        //       "type" : "Some Item Type"
-        //     },
-        //     "itemName" : "Pipe Fitting",
-        //     "jobId" : {
-        //       "columnName" : "402",
-        //       "type" : "Some Job Type"
-        //     },
-        //     "jobName" : "3MM Amine Plant",
-        //     "startTime": "2013-11-11T15:57:05.000Z",
-        //     "endTime": "2013-11-11T15:59:05.000Z"
-        //   },
-        //   {
-        //    "id": 102,
-        //    "employeeId": "QB:123",
-        //    "vendor" : "Vendor Three",
-        //    "customerId": "203",
-        //    "customerName": "Customer Three",
-        //    "itemId" : {
-        //       "columnName" : "303",
-        //       "type" : "Some Item Type"
-        //     },
-        //     "itemName" : "Welding",
-        //     "jobId" : {
-        //       "columnName" : "403",
-        //       "type" : "Some Job Type"
-        //     },
-        //     "jobName" : "3MM Amine Plant",
-        //     "startTime": "2013-11-11T16:57:05.000Z",
-        //     "endTime": "2013-11-11T16:59:05.000Z"
-        //   }
+        {
+           "id": 100,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor One",
+           "customerId": "201",
+           "customerName": "Customer One",
+           "itemId" : {
+              "columnName" : "301",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Mechanical Engineering",
+            "jobId" : null,
+            "jobName" : null,
+            "startTime": "2014-04-09T10:57:05.000Z",
+            "endTime": "2014-04-09T10:59:05.000Z"
+          },
+          {
+           "id": 101,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor Two",
+           "customerId": "202",
+           "customerName": "Customer Two",
+           "itemId" : {
+              "columnName" : "302",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Pipe Fitting",
+            "jobId" : {
+              "columnName" : "402",
+              "type" : "Some Job Type"
+            },
+            "jobName" : "3MM Amine Plant",
+            "startTime": "2014-04-09T15:57:05.000Z",
+            "endTime": "2014-04-09T15:59:05.000Z"
+          },
+          {
+           "id": 102,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor Three",
+           "customerId": "203",
+           "customerName": "Customer Three",
+           "itemId" : {
+              "columnName" : "303",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Welding",
+            "jobId" : {
+              "columnName" : "403",
+              "type" : "Some Job Type"
+            },
+            "jobName" : "3MM Amine Plant",
+            "startTime": "2014-04-09T16:57:05.000Z",
+            "endTime": "2014-04-09T16:59:05.000Z"
+          }
       ]
     },
-    getLastTimeLog: function(){
+    checkActiveStatus: function(timeLog){
+      if(timeLog.startTime && !timeLog.endTime){
+
+        return true
+      
+      }
+      else{
+        
+        return false
+        
+      }
+    },
+
+
+
+
+
+    getLastActiveTimeLog: function(){
       var logs = this.all()
       var lastLog = logs[0]
-      
-      return lastLog
+
+      if(!lastLog.endTime){
+        lastLog.active = true
+
+        console.log("Last Time Log is active!")
+        return lastLog
+      }
+      else{
+        console.log("No Active Log...")
+        return false
+      }
+
+    },
+    setAsActive: function(timeLog){
+      timeLog.active = true
+
+    },
+    setSelected: function(timeLog){
+      this.selectedTimeLog = timeLog
+    },
+    getSelected: function(){
+      return this.selectedTimeLog
     },
     registerTimeLog: function(timeLog) {
         var deferred = $q.defer();

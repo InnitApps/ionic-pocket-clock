@@ -1,0 +1,56 @@
+ <div class="modal">
+
+		    <!-- Modal header bar -->
+		    
+		    	<header class="bar bar-header bar-positive item-input-inset">
+				  <label class="item-input-wrapper">
+				    <i class="icon ion-ios7-search placeholder-icon"></i>
+				    <input type="search" placeholder="Search..." ng-model="item" autofocus>
+				  </label>
+				  <button class="button button-clear" ng-click="timeLogModal.hide();timeLogModal.remove();resetTimeLogModal()">
+				    Cancel
+				  </button>
+				</header>
+		
+
+		    <!-- Modal content area -->
+		    <content has-header="true">
+		    	<ion-list ng-repeat="list in modalLists" ng-if="list.visible" >
+		          <ion-item ng-repeat="item in list.collection | filter:item" item="item" ng-click="list.onSelect(item)">
+		            <h2 ng-if="list.title == 'Service Items'">{{item.name}}: {{item.description}}</h2>
+		             <h2 ng-if="list.title == 'Projects'">{{item.name}}</h2>
+		          </ion-item>
+		        </ion-list>
+
+		        <div class="card" ng-if="newTimeLog.visible">
+		        	<a href="#" class="item item-icon-left" ng-if="newTimeLog.itemId" ng-click="newTimeLog.itemId = null; newTimeLog.itemName = null;newTimeLog.visible = false; modalLists[0].visible = true">
+				    <i class="icon ion-wrench"></i>
+				   		{{newTimeLog.itemName}}
+				   </a>
+
+				   <ion-toggle class="balanced" ng-model="newTimeLog.isBillable" ng-checked="newTimeLog.isBillable">
+						<h2 class="title">Billable</h2>
+					</ion-toggle>
+
+		        	 <a href="#" class="item item-icon-left" ng-if="newTimeLog.isBillable" ng-click="modalLists[1].visible = true; newTimeLog.jobId = null; newTimeLog.jobName = null; newTimeLog.visible = false; modalLists[1].visible = true">
+				    <i class="icon ion-briefcase"></i>
+				   		<h2 ng-if="!newTimeLog.jobId">Select A Job</h2>
+				   		{{newTimeLog.jobName}}
+				  	</a>
+
+				  	<div class="item item-text-wrap" ng-if="!newTimeLog.isBillable">
+    					<a type="submit" class="button button-block button-positive" ng-click="newTimeLog.jobId = null;newTimeLog.jobName = null;startNewTimeLog(newTimeLog)" >Start Overhead Activity</a>
+  					</div>
+
+  					<div class="item item-text-wrap" ng-if="newTimeLog.isBillable && newTimeLog.jobId">
+    					<a type="submit" class="button button-block button-positive" ng-click="startNewTimeLog(newTimeLog)">Start Billable Activity</a>
+  					</div>
+
+				</div>
+
+				
+
+				
+		    </content>	
+</div>
+

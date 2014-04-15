@@ -1,0 +1,28 @@
+
+
+<ion-view title="Time Log">
+	<ion-content>	
+
+		<div class="card">
+  			<div class="item item-text-wrap">
+    			<h2 class="text-center">{{selectedTimeLog.itemName}}</h2>
+    			<h2 class="text-center">{{selectedTimeLog.jobName}}</h2>
+  			</div>
+  			<!-- <div class="item item-text-wrap">
+    			<div class="row">
+  					<div class="col">8:52am<br>Start</div>
+  					<div class="col text-right">8:52am<br>Stop</div>
+				  </div>
+  			</div> -->
+  			<div class="item item-text-wrap" ng-if="selectedTimeLog.active">
+    			<p>I'm active!</p>
+  			</div>
+  			<div class="item item-text-wrap">
+				<a type="submit" class="button button-block button-positive" ng-if="!selectedTimeLog.active" ng-click="resumeTimeLog()">Resume Activity</a>
+				<a type="submit" class="button button-block button-positive" ng-if="selectedTimeLog.active" ng-click="endTimeLog(selectedTimeLog)">End Activity</a>
+  			</div>
+		</div>
+
+	</ion-content>
+
+</ion-view>

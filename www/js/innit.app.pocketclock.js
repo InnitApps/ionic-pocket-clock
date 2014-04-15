@@ -13,37 +13,17 @@ InnitPocketClock.config(function($stateProvider, $urlRouterProvider,$innitAppPro
       url : '/pocketclock',
       templateUrl : 'views/pocketclock.html'
     })
-    .state('app.pocketclock.activityList', {
-      url: "/list",
-      templateUrl: "views/activity-list.html",
-      controller: 'ActivityListCtrl'
-    })
-    .state('app.pocketclock.activityFactory', {
-      url: "/factory",
-      templateUrl: "views/activity-factory.html",
-      controller: 'ActivityFactoryCtrl'
-    })
-    .state('app.pocketclock.activityConfirm', {
-      url: "/confirm",
-      templateUrl: "views/activity-confirm.html",
-      controller: 'ActivityConfirmCtrl'
-    })
-    .state('app.pocketclock.clock', {
-      url: "/clock",
-      templateUrl: "views/clock.html",
-      controller: 'ClockCtrl'
-    })
-    .state('app.pocketclock.activityDetail', {
-      url: "/activity-detail",
-      templateUrl: "views/activity-detail.html",
-      controller: 'ActivityDetailCtrl'
-    })
 
-    $stateProvider
     .state('timeLogList', {
       url: "/list",
-      templateUrl: "/views/timelog-list.html",
+      templateUrl: "/views/pocketclock.timelog-list.html",
       controller: 'TimeLogListCtrl'
+    })
+
+    .state('timeLog', {
+      url: "/timelog",
+      templateUrl: "/views/pocketclock.timeLog.html",
+      controller: 'TimeLogCtrl'
     })
 
     // if none of the above are matched, go to this one

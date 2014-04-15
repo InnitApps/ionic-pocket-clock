@@ -10,62 +10,192 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
   
   console.log("Hello Time Log List Controller!")
 
-  $scope.leftButtons = [
-    { 
-      type: 'button-positive',
-      content: '<i class="icon ion-navicon"></i>',
-      tap: function(e) {
-      }
-    }
-  ];
+  $scope.timeLogs = [
+    {
+           "id": 100,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor One",
+           "customerId": "201",
+           "customerName": "Customer One",
+           "itemId" : {
+              "columnName" : "301",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Mechanical Engineering",
+            "jobId" : null,
+            "jobName" : null,
+            "startTime": "2014-04-09T10:57:05.000Z",
+            "endTime": "2014-04-09T10:59:05.000Z"
+          },
+          {
+           "id": 101,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor Two",
+           "customerId": "202",
+           "customerName": "Customer Two",
+           "itemId" : {
+              "columnName" : "302",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Pipe Fitting",
+            "jobId" : {
+              "columnName" : "402",
+              "type" : "Some Job Type"
+            },
+            "jobName" : "3MM Amine Plant",
+            "startTime": "2014-04-09T15:57:05.000Z",
+            "endTime": "2014-04-09T15:59:05.000Z"
+          },
+          {
+           "id": 102,
+           "employeeId": "QB:123",
+           "vendor" : "Vendor Three",
+           "customerId": "203",
+           "customerName": "Customer Three",
+           "itemId" : {
+              "columnName" : "303",
+              "type" : "Some Item Type"
+            },
+            "itemName" : "Welding",
+            "jobId" : {
+              "columnName" : "403",
+              "type" : "Some Job Type"
+            },
+            "jobName" : "3MM Amine Plant",
+            "startTime": "2014-04-09T16:57:05.000Z",
+            "endTime": "2014-04-09T16:59:05.000Z"
+          }
 
-  $scope.rightButtons = [
-    { 
-      type: 'button-clear',
-      content: '<i class="icon ion-compose"></i>',
-      tap: function(e) {
-        console.log("let's create a new log")
-        $scope.selectedLogFactoryModel.setToDefault()
-        $scope.timeLogModal.show();
-      }
-    }
   ]
-
-  $scope.timeLogs = TimeLogs.all();
   $scope.projects = Projects.all();
   $scope.serviceItems = ServiceItems.all();
 
-  // $scope.selectedTimeLog = $scope.timeLogs[0]
-  
-  // $scope.$watch('selectedTimeLog',function(log){
+   
+  // TimeLogs.selectedTimeLog = TimeLogs.getLastActiveTimeLog();
 
-  //   if(!log.endTime){
+  $scope.$watch('timeLogs[0]',function(log){
 
-  //     $scope.selectedTimeLog.isActive = true
-
-  //     angular.forEach($scope.timeLogs, function(_log) { 
-        
-  //       _log.isVisible = false 
-
-  //     });
-
-  //     $scope.selectedTimeLog.isVisible = true
-
-  //   }
-  //   else{
-      
-  //     angular.forEach($scope.timeLogs, function(_log) { 
-        
-  //       _log.isVisible = true 
-
-  //     });
-  //   }
+    // console.log(log)
     
-  // })
+    log.active = TimeLogs.checkActiveStatus(log)
+    
+    if(log.active){
+      console.log("Log is Active!")
+      TimeLogs.setSelected(log)
+      $state.go('timeLog')
+    }
+    
+  })
+
+  $scope.select = function(log){
+    TimeLogs.selectedTimeLog = log
+    $state.go('timeLog')
+  }
+
+  //modal stuff
+  $scope.newTimeLog = {
+    itemId: null,
+    itemName: null,
+    jobId: null,
+    jobName: null,
+    isBillable: true,
+    visible: false
+  }
+
+  $scope.modalLists = [
+    {
+      title: "Service Items",
+      collection: $scope.serviceItems,
+      onSelect: function(item){
+        console.log(item)
+        $scope.newTimeLog.itemId = item.id
+        $scope.newTimeLog.itemName = item.description
+        this.visible = false
+        $scope.newTimeLog.visible = true
+      },
+      visible: true
+    },
+    {
+      title: "Projects",
+      collection: $scope.projects,
+      onSelect: function(item){
+        console.log("Project Selected")
+        $scope.newTimeLog.jobId = item.id
+        $scope.newTimeLog.jobName = item.name
+        this.visible = false
+        $scope.newTimeLog.visible = true
+      },
+      visible: false
+    },
+
+  ]
+
+  $scope.resetTimeLogModal = function(){
+   
+      $scope.newTimeLog.itemId = null
+      $scope.newTimeLog.itemName = null
+      $scope.newTimeLog.jobId = null
+      $scope.newTimeLog.jobName = null
+      $scope.newTimeLog.isBillable = true
+      $scope.newTimeLog.visible = false
 
 
-  $scope.resumeTimeLog = function(timeLog){
+     $scope.modalLists[0].visible = true
+     $scope.modalLists[1].visible = false
+  }
 
+  // Create and load the Modal
+  $ionicModal.fromTemplateUrl('partials/modal.newer-timelog.html', function(modal) {
+    $scope.timeLogModal = modal;
+  }, {
+    scope: $scope,
+    animation: 'slide-in-up',
+    focusFirstInput: true
+  });
+
+  
+
+  // Called when the form is submitted
+  $scope.startNewTimeLog = function(newTimeLog) {
+    
+    newLog = {
+      employeeId: "QB:123",
+      vendor: "Vendor Name",
+      customerId: "Customer ID",
+      itemId: newTimeLog.itemId,
+      itemName: newTimeLog.itemName,
+      jobId: newTimeLog.jobId,
+      jobName: newTimeLog.jobName,
+      startTime: new Date(),
+      endTime: null
+    }
+
+    $scope.timeLogs.unshift(newLog)
+    $scope.timeLogModal.hide();
+    $scope.timeLogModal.remove();
+
+  };
+
+ 
+
+})
+
+pocketClock.controller('TimeLogCtrl',function($rootScope,$scope,$state,TimeClock,TimeLogs,Projects,ServiceItems){
+
+  console.log("Hello Time Log List Controller!")
+
+  $scope.selectedTimeLog = TimeLogs.getSelected()
+
+  $scope.endTimeLog = function(log){
+    log.endTime = new Date();
+    log.active = false
+
+    $state.go("timeLogList")
+  }
+
+  $scope.resumeTimeLog = function(){
+
+    
     // //returns a blank time log prototype to work with
     // var newTimeLog = TimeLogs.newTimeLog();
 
@@ -78,85 +208,7 @@ pocketClock.controller('TimeLogListCtrl',function($rootScope,$scope,$state,TimeC
     // newTimeLog.startDate = new Date();
     // $scope.timeLogs.unshift(newTimeLog)
   }
-
-  $scope.endTimeLog = function(log){ 
-    console.log(log)
-
-    log.endTime = new Date();
-    log.isActive = false
-    // TimeClock.refreshTimeClock();
-  }
-
-  // Create and load the Modal
-  $ionicModal.fromTemplateUrl('partials/modal.new-timelog.html', function(modal) {
-    $scope.timeLogModal = modal;
-  }, {
-    scope: $scope,
-    animation: 'slide-in-up'
-  });
-
-  $scope.newTimeLog = {
-    itemId: null,
-    itemName: null,
-    jobId: null,
-    jobName: null,
-
-  }
-
-  // Called when the form is submitted
-  $scope.createTimeLog = function(timeLog) {
-    
-    var newTimeLog = {
-    employeeId: "QB:123",
-    vendor: "Vendor Name",
-    customerId: "Customer ID",
-    itemId: timeLog.itemId,
-    itemName: timeLog.itemName,
-    jobId: timeLog.jobId,
-    jobName: timeLog.jobName,
-    startTime: new Date(),
-    endTime: null
-  }
-    
-    console.log(newTimeLog)
-    newTimeLog.isActive = true
-    $scope.timeLogs.push(newTimeLog)
-    $scope.timeLogModal.hide();
-  };
-
-  // Close the new time log modal
-  $scope.closeNewTimeLog = function() {
-    $scope.timeLogModal.hide();
-  };
-
-  //Modal
-
-  
-
-  $scope.logFactoryModel = [
-    {
-      type: "Billable",
-      setToDefault: function(){
-        $scope.newTimeLog.jobId = null
-        $scope.newTimeLog.jobName = null
-        $scope.newTimeLog.itemId = null
-        $scope.newTimeLog.itemName = null
-      }
-    },
-    {
-      type: "Overhead",
-      setToDefault: function(){
-        $scope.newTimeLog.jobId = null
-        $scope.newTimeLog.jobName = null
-        $scope.newTimeLog.itemId = null
-        $scope.newTimeLog.itemName = null
-      }
-    }
-  ]
-
-  $scope.selectedLogFactoryModel = $scope.logFactoryModel[0]
-
-
-
 })
+
+
 
